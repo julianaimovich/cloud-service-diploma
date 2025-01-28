@@ -1,4 +1,4 @@
-package ru.netology.cloudservice.entities;
+package ru.netology.cloudservice.db.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,14 +8,13 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Users {
+@Table(name = "file")
+public class FileEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String login;
-
-    @Column(nullable = false)
-    private String password;
+    private String fileName;
 }
