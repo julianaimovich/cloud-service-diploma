@@ -52,4 +52,11 @@ public class ErrorSchemaBuilder {
                 .message("Error getting file list")
                 .build();
     }
+
+    public static ErrorSchema internalServerError() {
+        return ErrorSchema.builder()
+                .id(getErrorId())
+                .message("Internal server error")
+                .build();
+    }
 }
