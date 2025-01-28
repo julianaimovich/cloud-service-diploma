@@ -2,16 +2,19 @@ package ru.netology.cloudservice.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -19,49 +22,30 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import ru.netology.cloudservice.constants.Endpoints;
 import ru.netology.cloudservice.handlers.AuthFailProvider;
 import ru.netology.cloudservice.handlers.AuthSuccessProvider;
-import ru.netology.cloudservice.services.CustomAuthenticationProvider;
+import ru.netology.cloudservice.services.CustomUserDetailsService;
+
+import javax.sql.DataSource;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug=true)
 public class WebSecurityConfig {
-    private final CustomAuthenticationProvider authProvider;
+    private final DataSource dataSource;
 
-    public WebSecurityConfig(CustomAuthenticationProvider authProvider) {
-        this.authProvider = authProvider;
+    public WebSecurityConfig(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
-/*    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }*/
-
-
-
-
-    /*public final DataSource dataSource;*/
-
-    /*public WebSecurityConfig(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }*/
-
-    /*@Autowired
+    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .usersByUsernameQuery("select login, password "
                         + "from users where login = ?");
-    }*/
-
-
-
-
+    }
 
     @Bean
-    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder =
-                http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.authenticationProvider(authProvider);
-        return authenticationManagerBuilder.build();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -85,15 +69,14 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(Endpoints.LOGIN_URL).permitAll()
                         .anyRequest().authenticated())
-                .formLogin(form -> form
+                /*.formLogin(form -> form
                         .loginPage(Endpoints.LOGIN_URL)
                         .loginProcessingUrl(Endpoints.LOGIN_URL)
-                        .defaultSuccessUrl("/")
                         .usernameParameter("login")
                         .passwordParameter("password")
-                        .successHandler(new AuthSuccessProvider())
-                        .failureHandler(new AuthFailProvider())
-                        .permitAll())
+                        *//*.successHandler(new AuthSuccessProvider())
+                        .failureHandler(new AuthFailProvider())*//*
+                        .permitAll())*/
                 .logout(logout -> logout.logoutUrl(Endpoints.LOGOUT_URL)
                         .logoutSuccessHandler((HttpServletRequest request, HttpServletResponse response,
                                                Authentication authentication) -> response.setStatus(HttpStatus.OK.value()))

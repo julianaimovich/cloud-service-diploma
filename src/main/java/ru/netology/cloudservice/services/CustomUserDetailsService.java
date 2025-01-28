@@ -1,23 +1,24 @@
 package ru.netology.cloudservice.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.netology.cloudservice.entities.Users;
 import ru.netology.cloudservice.repositories.UsersRepository;
-import ru.netology.cloudservice.schemas.UserPrincipalSchema;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
-    private UsersRepository usersRepository;
+@RequiredArgsConstructor
+public class CustomUserDetailsService implements UserDetailsService {
+    private final UsersRepository usersRepository;
 
     @Override
-    public UserPrincipalSchema loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users user = usersRepository.findByLogin(username);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Users user = usersRepository.findByLogin(username).orElseThrow(() -> new UsernameNotFoundException(username));
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new UserPrincipalSchema(user);
+        return new Users(user.getUsername(), user.getPassword());
     }
 }

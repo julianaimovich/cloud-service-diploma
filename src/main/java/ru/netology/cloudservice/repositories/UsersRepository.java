@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface UsersRepository extends JpaRepository<Users, Long> {
-    Users findByLogin(String login);
+    Optional<Users> findByLogin(String login);
 }
