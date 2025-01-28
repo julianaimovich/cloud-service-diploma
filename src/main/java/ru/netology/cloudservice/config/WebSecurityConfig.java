@@ -2,18 +2,16 @@ package ru.netology.cloudservice.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -21,29 +19,49 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import ru.netology.cloudservice.constants.Endpoints;
 import ru.netology.cloudservice.handlers.AuthFailProvider;
 import ru.netology.cloudservice.handlers.AuthSuccessProvider;
-
-import javax.sql.DataSource;
+import ru.netology.cloudservice.services.CustomAuthenticationProvider;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-    public final DataSource dataSource;
+    private final CustomAuthenticationProvider authProvider;
 
-    public WebSecurityConfig(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public WebSecurityConfig(CustomAuthenticationProvider authProvider) {
+        this.authProvider = authProvider;
     }
 
-    @Bean
+/*    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
+    }*/
 
-    @Autowired
+
+
+
+    /*public final DataSource dataSource;*/
+
+    /*public WebSecurityConfig(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }*/
+
+    /*@Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .usersByUsernameQuery("select login, password "
                         + "from users where login = ?");
+    }*/
+
+
+
+
+
+    @Bean
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder =
+                http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.authenticationProvider(authProvider);
+        return authenticationManagerBuilder.build();
     }
 
     @Bean
