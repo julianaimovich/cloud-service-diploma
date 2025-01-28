@@ -22,7 +22,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import javax.sql.DataSource;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class WebSecurityConfig {
 
     private final DataSource dataSource;
@@ -65,10 +65,9 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(Endpoints.LOGIN).permitAll()
                         .anyRequest().authenticated())
-                .logout(logout -> logout.logoutUrl(Endpoints.LOGOUT)
-                        .logoutSuccessHandler((HttpServletRequest request, HttpServletResponse response,
-                                               Authentication authentication) -> response.setStatus(HttpStatus.OK.value()))
-                        .logoutSuccessUrl("/"));
+                .logout(logout -> logout.logoutUrl(Endpoints.LOGOUT).logoutSuccessHandler
+                                ((HttpServletRequest request, HttpServletResponse response, Authentication authentication) ->
+                                        response.setStatus(HttpStatus.OK.value())));
         return http.build();
     }
 }

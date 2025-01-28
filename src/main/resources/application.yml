@@ -17,9 +17,6 @@ spring:
     log-request-details: true
 logging:
   level:
-    com:
-      zaxxer:
-        hikari: DEBUG
-    org:
-      springframework: DEBUG
-      hibernate: DEBUG
+    org.springframework.security: TRACE
+    org.hibernate: DEBUG
+    com.zaxxer.hikari: DEBUG
