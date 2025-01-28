@@ -4,6 +4,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+    show-sql: true
   datasource:
     url: jdbc:mysql://localhost:3306/netology
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -4,17 +4,17 @@ import org.springframework.stereotype.Service;
 import ru.netology.cloudservice.entities.Users;
 import ru.netology.cloudservice.repositories.UsersRepository;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
-public class AuthorizationService {
+public class UserService {
     private final UsersRepository usersRepository;
 
-    public AuthorizationService(UsersRepository usersRepository) {
+    public UserService(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
     }
 
-    public List<Users> getAllUsers() {
-        return usersRepository.findAll();
+    public Optional<Users> findUserByLoginAndPassword(String login, String password) {
+        return usersRepository.findByLoginAndPassword(login, password);
     }
 }

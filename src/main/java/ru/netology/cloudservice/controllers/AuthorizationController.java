@@ -1,27 +1,37 @@
 package ru.netology.cloudservice.controllers;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.netology.cloudservice.entities.Users;
-import ru.netology.cloudservice.services.AuthorizationService;
+import ru.netology.cloudservice.schemaBuilders.ErrorSchemaBuilder;
+import ru.netology.cloudservice.schemas.LoginRequestSchema;
+import ru.netology.cloudservice.schemas.LoginResponseSchema;
+import ru.netology.cloudservice.schemas.ResponseSchema;
+import ru.netology.cloudservice.services.UserService;
 
-import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 public class AuthorizationController {
-    private final AuthorizationService service;
+    private final UserService userService;
+    private LoginResponseSchema userCache;
 
-    public AuthorizationController(AuthorizationService service) {
-        this.service = service;
+    public AuthorizationController(UserService userService, LoginResponseSchema userCache) {
+        this.userService = userService;
+        this.userCache = userCache;
     }
 
     @PostMapping("/login")
-    public String login(String login, String password) {
-        Users user = Users.builder().login(login).password(password).build();
-        List<Users> allUsers = service.getAllUsers();
-        if (allUsers.contains(user)) {
-            return "kek";
+    public ResponseSchema login(@RequestBody LoginRequestSchema schema) {
+        Optional<Users> user = userService.findUserByLoginAndPassword(schema.getLogin(), schema.getPassword());
+        if (user.isEmpty()) {
+            return ErrorSchemaBuilder.badCredentialsError();
         }
-        return "not";
+        userCache = new LoginResponseSchema(getToken());
+        return userCache;
+    }
+
+    private String getToken() {
+        return UUID.randomUUID().toString();
     }
 }
