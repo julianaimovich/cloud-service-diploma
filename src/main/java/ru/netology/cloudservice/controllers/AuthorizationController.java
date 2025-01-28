@@ -1,30 +1,31 @@
 package ru.netology.cloudservice.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.netology.cloudservice.entities.Users;
 import ru.netology.cloudservice.schemaBuilders.ErrorSchemaBuilder;
-import ru.netology.cloudservice.schemas.LoginRequestSchema;
-import ru.netology.cloudservice.schemas.LoginResponseSchema;
-import ru.netology.cloudservice.schemas.ResponseSchema;
-import ru.netology.cloudservice.services.UserService;
+import ru.netology.cloudservice.schemas.*;
+import ru.netology.cloudservice.services.UsersService;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @RestController
 public class AuthorizationController {
-    private final UserService userService;
+    private final UsersService usersService;
 
-    public AuthorizationController(UserService userService) {
-        this.userService = userService;
+    public AuthorizationController(UsersService usersService) {
+        this.usersService = usersService;
     }
 
     @PostMapping("/login")
-    public ResponseSchema login(@RequestBody LoginRequestSchema schema) {
-        Optional<Users> user = userService.findUserByLoginAndPassword(schema.getLogin(), schema.getPassword());
+    public ResponseEntity<ResponseSchema> login(@RequestBody LoginRequestSchema schema) {
+        Optional<Users> user = usersService.findUserByLoginAndPassword(schema.getLogin(), schema.getPassword());
         if (user.isEmpty()) {
-            return ErrorSchemaBuilder.badCredentialsError();
+            return new ResponseEntity<>(ErrorSchemaBuilder.badCredentialsError(), HttpStatus.BAD_REQUEST);
         }
-        return new LoginResponseSchema(UUID.randomUUID().toString());
+        LoginResponseSchema responseSchema = new LoginResponseSchema(UUID.randomUUID().toString());
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 }

@@ -7,10 +7,10 @@ import ru.netology.cloudservice.repositories.UsersRepository;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UsersService {
     private final UsersRepository usersRepository;
 
-    public UserService(UsersRepository usersRepository) {
+    public UsersService(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
     }
 
