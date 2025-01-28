@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -29,6 +31,11 @@ public class WebSecurityConfig {
 
     public WebSecurityConfig(DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Autowired
@@ -64,6 +71,8 @@ public class WebSecurityConfig {
                         .loginPage(Endpoints.LOGIN_URL)
                         .loginProcessingUrl(Endpoints.LOGIN_URL)
                         .defaultSuccessUrl("/")
+                        .usernameParameter("login")
+                        .passwordParameter("password")
                         .successHandler(new AuthSuccessProvider())
                         .failureHandler(new AuthFailProvider())
                         .permitAll())
