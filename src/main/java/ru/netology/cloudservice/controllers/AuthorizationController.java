@@ -14,11 +14,9 @@ import java.util.UUID;
 @RestController
 public class AuthorizationController {
     private final UserService userService;
-    private LoginResponseSchema userCache;
 
-    public AuthorizationController(UserService userService, LoginResponseSchema userCache) {
+    public AuthorizationController(UserService userService) {
         this.userService = userService;
-        this.userCache = userCache;
     }
 
     @PostMapping("/login")
@@ -27,11 +25,6 @@ public class AuthorizationController {
         if (user.isEmpty()) {
             return ErrorSchemaBuilder.badCredentialsError();
         }
-        userCache = new LoginResponseSchema(getToken());
-        return userCache;
-    }
-
-    private String getToken() {
-        return UUID.randomUUID().toString();
+        return new LoginResponseSchema(UUID.randomUUID().toString());
     }
 }
