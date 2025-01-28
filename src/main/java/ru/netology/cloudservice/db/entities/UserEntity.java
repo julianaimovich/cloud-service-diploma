@@ -1,4 +1,4 @@
-package ru.netology.cloudservice.entities;
+package ru.netology.cloudservice.db.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,7 +13,9 @@ import java.util.Collections;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Users implements UserDetails {
+@Table(name = "user")
+public class UserEntity implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,7 +26,7 @@ public class Users implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    public Users(String login, String password) {
+    public UserEntity(String login, String password) {
         this.login = login;
         this.password = password;
     }

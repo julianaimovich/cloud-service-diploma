@@ -18,13 +18,13 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import ru.netology.cloudservice.constants.Endpoints;
 
 import javax.sql.DataSource;
 
 @Configuration
-@EnableWebSecurity(debug=true)
+@EnableWebSecurity
 public class WebSecurityConfig {
+
     private final DataSource dataSource;
 
     public WebSecurityConfig(DataSource dataSource) {
@@ -63,9 +63,9 @@ public class WebSecurityConfig {
         http.cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers(Endpoints.LOGIN_URL).permitAll()
+                        .requestMatchers(Endpoints.LOGIN).permitAll()
                         .anyRequest().authenticated())
-                .logout(logout -> logout.logoutUrl(Endpoints.LOGOUT_URL)
+                .logout(logout -> logout.logoutUrl(Endpoints.LOGOUT)
                         .logoutSuccessHandler((HttpServletRequest request, HttpServletResponse response,
                                                Authentication authentication) -> response.setStatus(HttpStatus.OK.value()))
                         .logoutSuccessUrl("/"));

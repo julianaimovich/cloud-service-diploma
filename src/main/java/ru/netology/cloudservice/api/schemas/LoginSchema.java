@@ -1,4 +1,4 @@
-package ru.netology.cloudservice.schemas;
+package ru.netology.cloudservice.api.schemas;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

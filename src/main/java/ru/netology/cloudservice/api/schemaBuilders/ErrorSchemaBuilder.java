@@ -1,14 +1,13 @@
-package ru.netology.cloudservice.schemaBuilders;
+package ru.netology.cloudservice.api.schemaBuilders;
 
-import ru.netology.cloudservice.schemas.ErrorSchema;
+import ru.netology.cloudservice.api.schemas.ErrorSchema;
 
 public class ErrorSchemaBuilder {
 
-    private static int lastErrorId = 0;
+    private static int LAST_ERROR_ID = 0;
 
     private static int getErrorId() {
-        lastErrorId = lastErrorId + 1;
-        return lastErrorId;
+        return LAST_ERROR_ID++;
     }
 
     public static ErrorSchema badCredentialsError() {
