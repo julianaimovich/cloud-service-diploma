@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,9 +19,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import ru.netology.cloudservice.constants.Endpoints;
-import ru.netology.cloudservice.handlers.AuthFailProvider;
-import ru.netology.cloudservice.handlers.AuthSuccessProvider;
-import ru.netology.cloudservice.services.CustomUserDetailsService;
 
 import javax.sql.DataSource;
 
@@ -69,14 +65,6 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(Endpoints.LOGIN_URL).permitAll()
                         .anyRequest().authenticated())
-                /*.formLogin(form -> form
-                        .loginPage(Endpoints.LOGIN_URL)
-                        .loginProcessingUrl(Endpoints.LOGIN_URL)
-                        .usernameParameter("login")
-                        .passwordParameter("password")
-                        *//*.successHandler(new AuthSuccessProvider())
-                        .failureHandler(new AuthFailProvider())*//*
-                        .permitAll())*/
                 .logout(logout -> logout.logoutUrl(Endpoints.LOGOUT_URL)
                         .logoutSuccessHandler((HttpServletRequest request, HttpServletResponse response,
                                                Authentication authentication) -> response.setStatus(HttpStatus.OK.value()))
