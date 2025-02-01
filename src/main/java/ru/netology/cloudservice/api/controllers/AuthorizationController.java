@@ -15,7 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.netology.cloudservice.api.schemas.BaseSchema;
 import ru.netology.cloudservice.api.schemas.UserSchema;
 import ru.netology.cloudservice.constants.Endpoints;
-import ru.netology.cloudservice.constants.ErrorDescriptions;
+import ru.netology.cloudservice.constants.ErrorMessages;
 import ru.netology.cloudservice.constants.RequestParamValues;
 import ru.netology.cloudservice.services.CustomUserDetailsService;
 
@@ -48,7 +48,7 @@ public class AuthorizationController {
             UserSchema user = new UserSchema(UUID.randomUUID().toString());
             return ResponseEntity.ok(user);
         } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorDescriptions.BAD_CREDENTIALS);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessages.BAD_CREDENTIALS);
         }
     }
 
