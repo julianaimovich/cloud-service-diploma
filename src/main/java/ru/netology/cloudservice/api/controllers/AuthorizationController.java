@@ -15,6 +15,8 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.netology.cloudservice.api.schemas.BaseSchema;
 import ru.netology.cloudservice.api.schemas.UserSchema;
 import ru.netology.cloudservice.constants.Endpoints;
+import ru.netology.cloudservice.constants.ErrorDescriptions;
+import ru.netology.cloudservice.constants.RequestParamValues;
 import ru.netology.cloudservice.services.CustomUserDetailsService;
 
 import java.util.List;
@@ -32,7 +34,7 @@ public class AuthorizationController {
         this.authenticationManager = authenticationManager;
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @PostMapping(Endpoints.LOGIN)
     public ResponseEntity<BaseSchema> login(@RequestBody UserSchema userSchema, final HttpServletRequest request) {
         List<GrantedAuthority> authorities = userDetailsService.getAuthorities(userSchema.getLogin());
         UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken
@@ -42,11 +44,11 @@ public class AuthorizationController {
             SecurityContext sc = SecurityContextHolder.getContext();
             sc.setAuthentication(auth);
             HttpSession session = request.getSession(true);
-            session.setAttribute("SPRING_SECURITY_CONTEXT", sc);
+            session.setAttribute(RequestParamValues.SPRING_SECURITY_CONTEXT, sc);
             UserSchema user = new UserSchema(UUID.randomUUID().toString());
             return ResponseEntity.ok(user);
         } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad credentials");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorDescriptions.BAD_CREDENTIALS);
         }
     }
 

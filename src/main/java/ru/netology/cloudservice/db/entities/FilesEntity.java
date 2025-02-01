@@ -3,8 +3,6 @@ package ru.netology.cloudservice.db.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Blob;
-
 @Data
 @Entity
 @Builder
@@ -23,7 +21,7 @@ public class FilesEntity {
     @Column(nullable = false)
     private Integer size;
 
-    @Column(name = "file_content", nullable = false)
+    @Column(name = "file_content", columnDefinition = "LONGBLOB", nullable = false)
     @Lob
-    private Blob fileContent;
+    private byte[] fileContent;
 }

@@ -1,19 +1,21 @@
 package ru.netology.cloudservice.services;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import ru.netology.cloudservice.api.schemas.FileSchema;
 import ru.netology.cloudservice.db.entities.FilesEntity;
 import ru.netology.cloudservice.db.repositories.FilesRepository;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
 @Service
-public class FileService {
+public class FilesService {
 
     private final FilesRepository filesRepository;
 
-    public FileService(FilesRepository filesRepository) {
+    public FilesService(FilesRepository filesRepository) {
         this.filesRepository = filesRepository;
     }
 
@@ -25,5 +27,14 @@ public class FileService {
         } else {
             return Collections.emptyList();
         }
+    }
+
+    public void saveFile(String filename, MultipartFile file) throws IOException {
+        FilesEntity fileEntity = FilesEntity.builder()
+                .filename(filename)
+                .fileContent(file.getBytes())
+                .size((int) file.getSize())
+                .build();
+        filesRepository.save(fileEntity);
     }
 }
