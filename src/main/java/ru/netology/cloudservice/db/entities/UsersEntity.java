@@ -13,8 +13,8 @@ import java.util.Collections;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user")
-public class UserEntity implements UserDetails {
+@Table(name = "users")
+public class UsersEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class UserEntity implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    public UserEntity(String login, String password) {
+    public UsersEntity(String login, String password) {
         this.login = login;
         this.password = password;
     }

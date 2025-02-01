@@ -10,8 +10,8 @@ import java.sql.Blob;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "file")
-public class FileEntity {
+@Table(name = "files")
+public class FilesEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
