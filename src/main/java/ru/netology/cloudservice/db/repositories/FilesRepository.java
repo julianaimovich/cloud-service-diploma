@@ -7,9 +7,12 @@ import org.springframework.stereotype.Repository;
 import ru.netology.cloudservice.db.entities.FilesEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface FilesRepository extends JpaRepository<FilesEntity, Long>  {
     @Query(nativeQuery = true, value = "SELECT * FROM files f LIMIT :limit")
     List<FilesEntity> findAllByLimit(@Param("limit") Integer limit);
+
+    Optional<FilesEntity> findByFilename(String filename);
 }

@@ -36,10 +36,19 @@ public class FilesController {
     @PostMapping(path = Endpoints.FILE, consumes = FILE_CONTENT_TYPE)
     public ResponseEntity<BaseSchema> createFile(@RequestParam String filename,
                                                  @RequestBody MultipartFile file) throws IOException {
-        if (filename == null || filename.isEmpty()) {
+        if (filename == null || filename.isEmpty() || file == null) {
             throw new BadRequestException(ErrorMessages.ERROR_INPUT_DATA);
         }
         filesService.saveFile(filename, file);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(Endpoints.FILE)
+    public ResponseEntity<BaseSchema> deleteFile(@RequestParam String filename) throws IOException {
+        if (filename == null || filename.isEmpty()) {
+            throw new BadRequestException(ErrorMessages.ERROR_INPUT_DATA);
+        }
+        filesService.deleteFile(filename);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
