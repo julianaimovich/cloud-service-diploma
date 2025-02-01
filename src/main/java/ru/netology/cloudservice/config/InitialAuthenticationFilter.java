@@ -24,7 +24,7 @@ public class InitialAuthenticationFilter implements Filter {
         if (request.getHeader(HeaderValues.AUTH_TOKEN_HEADER) == null) {
             try {
                 AUTH_TOKEN = UUID.randomUUID().toString();
-                response.setHeader(HeaderValues.AUTH_TOKEN_HEADER, String.join(" ", HeaderValues.TOKEN_BEARER, HeaderValues.AUTH_TOKEN_HEADER));
+                response.setHeader(HeaderValues.AUTH_TOKEN_HEADER, String.join(" ", HeaderValues.TOKEN_BEARER, AUTH_TOKEN));
             } catch (BadCredentialsException e) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             }
