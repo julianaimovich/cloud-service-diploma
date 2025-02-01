@@ -17,9 +17,6 @@ public class FileController {
         this.fileService = fileService;
     }
 
-    /*@GetMapping("/list")
-    public ResponseEntity<List<Files>> list() {}*/
-
     @GetMapping("/list")
     public List<FileSchema> getAllFilesByLimit(@RequestHeader("auth-token") String authToken, @RequestParam Integer limit) {
         if (authToken.isEmpty()) {

@@ -39,16 +39,6 @@ public class WebSecurityConfig {
                 .build();
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .usersByUsernameQuery("select login, password, 'true' as enabled "
-                        + "from users where login = ?")
-                .authoritiesByUsernameQuery("select login, authority, 'true' as enabled " +
-                        "from authorities where login = ?");
-    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -68,11 +58,20 @@ public class WebSecurityConfig {
         };
     }
 
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication()
+                .dataSource(dataSource)
+                .usersByUsernameQuery("select login, password, 'true' as enabled "
+                        + "from users where login = ?")
+                .authoritiesByUsernameQuery("select login, authority, 'true' as enabled " +
+                        "from authorities where login = ?");
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                /*.requestCache(RequestCacheConfigurer::disable)*/
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(Endpoints.LOGIN).permitAll()
                         .anyRequest().authenticated())
