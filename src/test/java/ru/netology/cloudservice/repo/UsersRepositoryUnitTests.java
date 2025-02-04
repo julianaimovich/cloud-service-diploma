@@ -31,28 +31,36 @@ public class UsersRepositoryUnitTests {
     @Rollback
     @DisplayName("Save user")
     public void saveUserTest() {
+        // Act
         UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
         List<UsersEntity> allUsersInSystem = usersRepository.findAll();
+        // Assert
         assertTrue(allUsersInSystem.contains(user));
     }
 
     @Test
     @DisplayName("Unable to save user without login")
     public void unableToSaveUserWithoutLoginTest() {
+        // Arrange
         UsersEntity user = UsersEntityBuilder.getRandomUser();
         user.setLogin(null);
+        // Act
         DataIntegrityViolationException exception = assertThrows
                 (DataIntegrityViolationException.class, () -> usersRepository.save(user));
+        // Assert
         assertTrue(exception.getMessage().contains(ExceptionMessages.NOT_NULL_PROPERTY_NULL_REFERENCE));
     }
 
     @Test
     @DisplayName("Unable to save user without password")
     public void unableToSaveUserWithoutPasswordTest() {
+        // Arrange
         UsersEntity user = UsersEntityBuilder.getRandomUser();
         user.setPassword(null);
+        // Act
         DataIntegrityViolationException exception = assertThrows
                 (DataIntegrityViolationException.class, () -> usersRepository.save(user));
+        // Assert
         assertTrue(exception.getMessage().contains(ExceptionMessages.NOT_NULL_PROPERTY_NULL_REFERENCE));
     }
 
@@ -60,8 +68,11 @@ public class UsersRepositoryUnitTests {
     @Rollback
     @DisplayName("Get user by id")
     public void getUserByIdTest() {
+        // Arrange
         UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
+        // Act
         UsersEntity userFromDb = usersRepository.findById(user.getId()).orElseThrow();
+        // Assert
         assertEquals(user, userFromDb);
     }
 
@@ -69,15 +80,20 @@ public class UsersRepositoryUnitTests {
     @Rollback
     @DisplayName("Get user by login")
     public void getUserByLoginTest() {
+        // Arrange
         UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
+        // Act
         UsersEntity userFromDb = usersRepository.findByLogin(user.getLogin()).orElseThrow();
+        // Assert
         assertEquals(user, userFromDb);
     }
 
     @Test
     @DisplayName("Get all existing users")
     public void getAllUsersTest() {
+        // Act
         List<UsersEntity> usersList = usersRepository.findAll();
+        // Assert
         assertThat(usersList.size()).isGreaterThan(0);
     }
 
@@ -85,18 +101,24 @@ public class UsersRepositoryUnitTests {
     @Rollback
     @DisplayName("Update user")
     public void updateUserTest() {
+        // Arrange
         UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
         user.setLogin(faker.internet().username());
+        // Act
         UsersEntity userUpdated =  usersRepository.save(user);
+        // Assert
         assertEquals(user.getLogin(), userUpdated.getLogin());
     }
 
     @Test
     @DisplayName("Delete user")
     public void deleteUserTest() {
+        // Arrange
         UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
+        // Act
         usersRepository.delete(user);
         Optional<UsersEntity> optional = usersRepository.findById(user.getId());
+        // Assert
         assertTrue(optional.isEmpty());
     }
 }

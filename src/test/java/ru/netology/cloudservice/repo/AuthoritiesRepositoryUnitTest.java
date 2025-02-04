@@ -37,30 +37,39 @@ public class AuthoritiesRepositoryUnitTest {
     @Rollback
     @DisplayName("Save user authority")
     public void saveAuthorityTest() {
+        // Arrange
         UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
+        // Act
         AuthoritiesEntity authority = authoritiesRepository.save
                 (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
         List<AuthoritiesEntity> allAuthoritiesInSystem = authoritiesRepository.findAll();
+        // Assert
         assertTrue(allAuthoritiesInSystem.contains(authority));
     }
 
     @Test
     @DisplayName("Unable to save authority without user login")
     public void unableToSaveAuthorityWithoutLoginTest() {
+        // Arrange
         AuthoritiesEntity authority = AuthoritiesEntity.builder()
                 .authority(TestConstants.RoleAuthorities.ROLE_ADMIN_AUTHORITY).build();
+        // Act
         DataIntegrityViolationException exception = assertThrows
                 (DataIntegrityViolationException.class, () -> authoritiesRepository.save(authority));
+        // Assert
         assertTrue(exception.getMessage().contains(ExceptionMessages.NOT_NULL_PROPERTY_NULL_REFERENCE));
     }
 
     @Test
     @DisplayName("Unable to save authority without user role")
     public void unableToSaveAuthorityWithoutRoleTest() {
+        // Arrange
         AuthoritiesEntity authority = AuthoritiesEntity.builder()
                 .login(faker.internet().username()).build();
+        // Act
         DataIntegrityViolationException exception = assertThrows
                 (DataIntegrityViolationException.class, () -> authoritiesRepository.save(authority));
+        // Assert
         assertTrue(exception.getMessage().contains(ExceptionMessages.NOT_NULL_PROPERTY_NULL_REFERENCE));
     }
 
@@ -68,11 +77,14 @@ public class AuthoritiesRepositoryUnitTest {
     @Rollback
     @DisplayName("Get user authority by id")
     public void getAuthorityByIdTest() {
+        // Arrange
         UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
         AuthoritiesEntity authority = authoritiesRepository.save
                 (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
+        // Act
         AuthoritiesEntity authorityFromDb = authoritiesRepository.findById
                 (authority.getId()).orElseThrow();
+        // Assert
         assertEquals(authority, authorityFromDb);
     }
 
@@ -80,18 +92,23 @@ public class AuthoritiesRepositoryUnitTest {
     @Rollback
     @DisplayName("Get authority by user login")
     public void getAuthorityByLoginTest() {
+        // Arrange
         UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
         AuthoritiesEntity authority = authoritiesRepository.save
                 (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
+        // Act
         AuthoritiesEntity authorityFromDb = authoritiesRepository.findByLogin
                 (user.getLogin()).orElseThrow();
+        // Assert
         assertEquals(authority, authorityFromDb);
     }
 
     @Test
     @DisplayName("Get all existing user authorities")
     public void getAllExistingAuthoritiesTest() {
+        // Act
         List<AuthoritiesEntity> authoritiesList = authoritiesRepository.findAll();
+        // Assert
         assertThat(authoritiesList.size()).isGreaterThan(0);
     }
 
@@ -99,11 +116,14 @@ public class AuthoritiesRepositoryUnitTest {
     @Rollback
     @DisplayName("Update user authority")
     public void updateAuthorityTest() {
+        // Arrange
         UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
         AuthoritiesEntity authority = authoritiesRepository.save
                 (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
         authority.setAuthority(TestConstants.RoleAuthorities.ROLE_USER_AUTHORITY);
+        // Act
         AuthoritiesEntity authorityUpdated =  authoritiesRepository.save(authority);
+        // Assert
         assertEquals(authority.getAuthority(), authorityUpdated.getAuthority());
     }
 
@@ -111,11 +131,14 @@ public class AuthoritiesRepositoryUnitTest {
     @Rollback
     @DisplayName("Delete user authority")
     public void deleteAuthorityTest() {
+        // Arrange
         UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
         AuthoritiesEntity authority = authoritiesRepository.save
                 (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
+        // Act
         authoritiesRepository.delete(authority);
         Optional<AuthoritiesEntity> optional = authoritiesRepository.findById(authority.getId());
+        // Assert
         assertTrue(optional.isEmpty());
     }
 }
