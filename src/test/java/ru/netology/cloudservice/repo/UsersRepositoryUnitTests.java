@@ -10,7 +10,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import ru.netology.cloudservice.model.UsersEntity;
 import ru.netology.cloudservice.repository.UsersRepository;
-import ru.netology.cloudservice.utils.ExceptionMessages;
+import ru.netology.cloudservice.utils.TestConstants.ExceptionMessages;
 import ru.netology.cloudservice.utils.builder.UsersBuilder;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class UsersRepositoryUnitTests {
 
     @Autowired
     private UsersRepository usersRepository;
-    private static final Faker faker = new Faker();
+    private final Faker faker = new Faker();
 
     @Test
     @Rollback()
@@ -43,7 +43,7 @@ public class UsersRepositoryUnitTests {
         user.setLogin(null);
         DataIntegrityViolationException exception = assertThrows
                 (DataIntegrityViolationException.class, () -> usersRepository.save(user));
-        assertTrue(exception.getMessage().contains(ExceptionMessages.notNullPropertyReferencesNull()));
+        assertTrue(exception.getMessage().contains(ExceptionMessages.NOT_NULL_PROPERTY_NULL_REFERENCE));
     }
 
     @Test
@@ -53,7 +53,7 @@ public class UsersRepositoryUnitTests {
         user.setPassword(null);
         DataIntegrityViolationException exception = assertThrows
                 (DataIntegrityViolationException.class, () -> usersRepository.save(user));
-        assertTrue(exception.getMessage().contains(ExceptionMessages.notNullPropertyReferencesNull()));
+        assertTrue(exception.getMessage().contains(ExceptionMessages.NOT_NULL_PROPERTY_NULL_REFERENCE));
     }
 
     @Test

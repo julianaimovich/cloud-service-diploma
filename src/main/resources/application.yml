@@ -4,4 +4,3 @@ spring.profiles.include: prod, test
 spring.profiles.active: prod
 spring.jpa.show-sql: true
 spring.jackson.serialization.fail-on-empty-beans: false
-spring.h2.console.enabled: true
