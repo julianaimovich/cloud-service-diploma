@@ -2,10 +2,10 @@ package ru.netology.cloudservice.services;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.netology.cloudservice.api.schemas.FileSchema;
 import ru.netology.cloudservice.constants.ErrorMessages;
 import ru.netology.cloudservice.db.entities.FilesEntity;
 import ru.netology.cloudservice.db.repositories.FilesRepository;
+import ru.netology.cloudservice.dto.FileDto;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,11 +64,11 @@ public class FilesService {
         return entity.get().getContentType();
     }
 
-    public List<FileSchema> getAllFilesByLimit(Integer limit) {
+    public List<FileDto> getAllFilesByLimit(Integer limit) {
         List<FilesEntity> fileEntitiesList = filesRepository.findAllByLimit(limit);
         if (!fileEntitiesList.isEmpty()) {
             return fileEntitiesList.stream().map(filesEntity ->
-                    new FileSchema(filesEntity.getFilename(), filesEntity.getSize())).toList();
+                    new FileDto(filesEntity.getFilename(), filesEntity.getSize())).toList();
         }
         return Collections.emptyList();
     }

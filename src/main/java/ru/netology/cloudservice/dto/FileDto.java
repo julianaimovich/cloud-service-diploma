@@ -1,4 +1,4 @@
-package ru.netology.cloudservice.api.schemas;
+package ru.netology.cloudservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
@@ -8,8 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode(callSuper = true)
-public class FileSchema extends BaseSchema {
+public class FileDto {
     private String filename;
     private Integer size;
 }
