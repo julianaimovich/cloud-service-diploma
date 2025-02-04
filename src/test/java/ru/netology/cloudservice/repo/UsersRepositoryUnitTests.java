@@ -10,8 +10,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import ru.netology.cloudservice.model.UsersEntity;
 import ru.netology.cloudservice.repository.UsersRepository;
-import ru.netology.cloudservice.utils.TestConstants.ExceptionMessages;
-import ru.netology.cloudservice.utils.builder.UsersBuilder;
+import ru.netology.cloudservice.util.TestConstants.ExceptionMessages;
+import ru.netology.cloudservice.util.builder.UsersEntityBuilder;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,10 +28,10 @@ public class UsersRepositoryUnitTests {
     private final Faker faker = new Faker();
 
     @Test
-    @Rollback()
+    @Rollback
     @DisplayName("Save user")
     public void saveUserTest() {
-        UsersEntity user = usersRepository.save(UsersBuilder.getRandomUser());
+        UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
         List<UsersEntity> allUsersInSystem = usersRepository.findAll();
         assertTrue(allUsersInSystem.contains(user));
     }
@@ -39,7 +39,7 @@ public class UsersRepositoryUnitTests {
     @Test
     @DisplayName("Unable to save user without login")
     public void unableToSaveUserWithoutLoginTest() {
-        UsersEntity user = UsersBuilder.getRandomUser();
+        UsersEntity user = UsersEntityBuilder.getRandomUser();
         user.setLogin(null);
         DataIntegrityViolationException exception = assertThrows
                 (DataIntegrityViolationException.class, () -> usersRepository.save(user));
@@ -49,7 +49,7 @@ public class UsersRepositoryUnitTests {
     @Test
     @DisplayName("Unable to save user without password")
     public void unableToSaveUserWithoutPasswordTest() {
-        UsersEntity user = UsersBuilder.getRandomUser();
+        UsersEntity user = UsersEntityBuilder.getRandomUser();
         user.setPassword(null);
         DataIntegrityViolationException exception = assertThrows
                 (DataIntegrityViolationException.class, () -> usersRepository.save(user));
@@ -57,19 +57,19 @@ public class UsersRepositoryUnitTests {
     }
 
     @Test
-    @Rollback()
+    @Rollback
     @DisplayName("Get user by id")
     public void getUserByIdTest() {
-        UsersEntity user = usersRepository.save(UsersBuilder.getRandomUser());
+        UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
         UsersEntity userFromDb = usersRepository.findById(user.getId()).orElseThrow();
         assertEquals(user, userFromDb);
     }
 
     @Test
-    @Rollback()
+    @Rollback
     @DisplayName("Get user by login")
     public void getUserByLoginTest() {
-        UsersEntity user = usersRepository.save(UsersBuilder.getRandomUser());
+        UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
         UsersEntity userFromDb = usersRepository.findByLogin(user.getLogin()).orElseThrow();
         assertEquals(user, userFromDb);
     }
@@ -82,10 +82,10 @@ public class UsersRepositoryUnitTests {
     }
 
     @Test
-    @Rollback()
+    @Rollback
     @DisplayName("Update user")
     public void updateUserTest() {
-        UsersEntity user = usersRepository.save(UsersBuilder.getRandomUser());
+        UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
         user.setLogin(faker.internet().username());
         UsersEntity userUpdated =  usersRepository.save(user);
         assertEquals(user.getLogin(), userUpdated.getLogin());
@@ -94,7 +94,7 @@ public class UsersRepositoryUnitTests {
     @Test
     @DisplayName("Delete user")
     public void deleteUserTest() {
-        UsersEntity user = usersRepository.save(UsersBuilder.getRandomUser());
+        UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
         usersRepository.delete(user);
         Optional<UsersEntity> optional = usersRepository.findById(user.getId());
         assertTrue(optional.isEmpty());

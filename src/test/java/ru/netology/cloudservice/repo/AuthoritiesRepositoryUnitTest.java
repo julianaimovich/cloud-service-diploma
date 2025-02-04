@@ -12,10 +12,10 @@ import ru.netology.cloudservice.model.AuthoritiesEntity;
 import ru.netology.cloudservice.model.UsersEntity;
 import ru.netology.cloudservice.repository.AuthoritiesRepository;
 import ru.netology.cloudservice.repository.UsersRepository;
-import ru.netology.cloudservice.utils.TestConstants;
-import ru.netology.cloudservice.utils.TestConstants.ExceptionMessages;
-import ru.netology.cloudservice.utils.builder.AuthoritiesBuilder;
-import ru.netology.cloudservice.utils.builder.UsersBuilder;
+import ru.netology.cloudservice.util.TestConstants;
+import ru.netology.cloudservice.util.TestConstants.ExceptionMessages;
+import ru.netology.cloudservice.util.builder.AuthoritiesEntityBuilder;
+import ru.netology.cloudservice.util.builder.UsersEntityBuilder;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,12 +34,12 @@ public class AuthoritiesRepositoryUnitTest {
     private final Faker faker = new Faker();
 
     @Test
-    @Rollback()
+    @Rollback
     @DisplayName("Save user authority")
     public void saveAuthorityTest() {
-        UsersEntity user = usersRepository.save(UsersBuilder.getRandomUser());
+        UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
         AuthoritiesEntity authority = authoritiesRepository.save
-                (AuthoritiesBuilder.getAdminAuthorityForUser(user.getLogin()));
+                (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
         List<AuthoritiesEntity> allAuthoritiesInSystem = authoritiesRepository.findAll();
         assertTrue(allAuthoritiesInSystem.contains(authority));
     }
@@ -65,24 +65,24 @@ public class AuthoritiesRepositoryUnitTest {
     }
 
     @Test
-    @Rollback()
+    @Rollback
     @DisplayName("Get user authority by id")
     public void getAuthorityByIdTest() {
-        UsersEntity user = usersRepository.save(UsersBuilder.getRandomUser());
+        UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
         AuthoritiesEntity authority = authoritiesRepository.save
-                (AuthoritiesBuilder.getAdminAuthorityForUser(user.getLogin()));
+                (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
         AuthoritiesEntity authorityFromDb = authoritiesRepository.findById
                 (authority.getId()).orElseThrow();
         assertEquals(authority, authorityFromDb);
     }
 
     @Test
-    @Rollback()
+    @Rollback
     @DisplayName("Get authority by user login")
     public void getAuthorityByLoginTest() {
-        UsersEntity user = usersRepository.save(UsersBuilder.getRandomUser());
+        UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
         AuthoritiesEntity authority = authoritiesRepository.save
-                (AuthoritiesBuilder.getAdminAuthorityForUser(user.getLogin()));
+                (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
         AuthoritiesEntity authorityFromDb = authoritiesRepository.findByLogin
                 (user.getLogin()).orElseThrow();
         assertEquals(authority, authorityFromDb);
@@ -96,24 +96,24 @@ public class AuthoritiesRepositoryUnitTest {
     }
 
     @Test
-    @Rollback()
+    @Rollback
     @DisplayName("Update user authority")
     public void updateAuthorityTest() {
-        UsersEntity user = usersRepository.save(UsersBuilder.getRandomUser());
+        UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
         AuthoritiesEntity authority = authoritiesRepository.save
-                (AuthoritiesBuilder.getAdminAuthorityForUser(user.getLogin()));
+                (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
         authority.setAuthority(TestConstants.RoleAuthorities.ROLE_USER_AUTHORITY);
         AuthoritiesEntity authorityUpdated =  authoritiesRepository.save(authority);
         assertEquals(authority.getAuthority(), authorityUpdated.getAuthority());
     }
 
     @Test
-    @Rollback()
+    @Rollback
     @DisplayName("Delete user authority")
     public void deleteAuthorityTest() {
-        UsersEntity user = usersRepository.save(UsersBuilder.getRandomUser());
+        UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
         AuthoritiesEntity authority = authoritiesRepository.save
-                (AuthoritiesBuilder.getAdminAuthorityForUser(user.getLogin()));
+                (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
         authoritiesRepository.delete(authority);
         Optional<AuthoritiesEntity> optional = authoritiesRepository.findById(authority.getId());
         assertTrue(optional.isEmpty());

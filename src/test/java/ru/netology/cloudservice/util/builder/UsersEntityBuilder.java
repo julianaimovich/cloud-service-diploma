@@ -1,9 +1,9 @@
-package ru.netology.cloudservice.utils.builder;
+package ru.netology.cloudservice.util.builder;
 
 import net.datafaker.Faker;
 import ru.netology.cloudservice.model.UsersEntity;
 
-public class UsersBuilder {
+public class UsersEntityBuilder {
 
     private static final Faker faker = new Faker();
 
