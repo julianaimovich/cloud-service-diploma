@@ -12,9 +12,9 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import ru.netology.cloudservice.constants.*;
+import ru.netology.cloudservice.config.Constants.*;
 import ru.netology.cloudservice.dto.UserDto;
-import ru.netology.cloudservice.services.CustomUserDetailsService;
+import ru.netology.cloudservice.service.CustomUserDetailsService;
 
 import java.util.List;
 import java.util.UUID;

@@ -1,11 +1,11 @@
-package ru.netology.cloudservice.services;
+package ru.netology.cloudservice.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.netology.cloudservice.constants.ErrorMessages;
-import ru.netology.cloudservice.db.entities.FilesEntity;
-import ru.netology.cloudservice.db.repositories.FilesRepository;
+import ru.netology.cloudservice.config.Constants.ErrorMessages;
 import ru.netology.cloudservice.dto.FileDto;
+import ru.netology.cloudservice.model.FilesEntity;
+import ru.netology.cloudservice.repository.FilesRepository;
 
 import java.io.IOException;
 import java.util.*;

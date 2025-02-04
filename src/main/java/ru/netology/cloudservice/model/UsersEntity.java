@@ -1,4 +1,4 @@
-package ru.netology.cloudservice.db.entities;
+package ru.netology.cloudservice.model;
 
 import jakarta.persistence.*;
 import lombok.*;

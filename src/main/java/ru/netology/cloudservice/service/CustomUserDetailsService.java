@@ -1,13 +1,13 @@
-package ru.netology.cloudservice.services;
+package ru.netology.cloudservice.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
-import ru.netology.cloudservice.db.entities.UsersEntity;
-import ru.netology.cloudservice.db.repositories.AuthoritiesRepository;
-import ru.netology.cloudservice.db.repositories.UsersRepository;
+import ru.netology.cloudservice.model.UsersEntity;
+import ru.netology.cloudservice.repository.AuthoritiesRepository;
+import ru.netology.cloudservice.repository.UsersRepository;
 
 import java.util.ArrayList;
 import java.util.List;
