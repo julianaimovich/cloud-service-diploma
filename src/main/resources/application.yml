@@ -1,11 +1,7 @@
 spring.application.name: cloud-service
+
 spring.profiles.include: prod, test
 spring.profiles.active: prod
-spring.jpa.database-platform: org.hibernate.dialect.MySQLDialect
 spring.jpa.show-sql: true
 spring.jackson.serialization.fail-on-empty-beans: false
-
-spring.mvc.log-request-details: true
-logging.level.org.springframework.security: TRACE
-logging.level.org.hibernate: DEBUG
-logging.level.com.zaxxer.hikari: DEBUG
+spring.h2.console.enabled: true
