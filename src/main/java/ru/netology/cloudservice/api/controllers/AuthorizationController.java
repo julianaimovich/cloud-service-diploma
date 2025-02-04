@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.netology.cloudservice.api.schemas.BaseSchema;
 import ru.netology.cloudservice.api.schemas.UserSchema;
-import ru.netology.cloudservice.constants.Endpoints;
-import ru.netology.cloudservice.constants.ErrorMessages;
-import ru.netology.cloudservice.constants.RequestParamValues;
+import ru.netology.cloudservice.constants.*;
 import ru.netology.cloudservice.services.CustomUserDetailsService;
 
 import java.util.List;
@@ -44,7 +42,7 @@ public class AuthorizationController {
             SecurityContext sc = SecurityContextHolder.getContext();
             sc.setAuthentication(auth);
             HttpSession session = request.getSession(true);
-            session.setAttribute(RequestParamValues.SPRING_SECURITY_CONTEXT, sc);
+            session.setAttribute(CommonConstants.SPRING_SECURITY_CONTEXT, sc);
             UserSchema user = new UserSchema(UUID.randomUUID().toString());
             return ResponseEntity.ok(user);
         } else {

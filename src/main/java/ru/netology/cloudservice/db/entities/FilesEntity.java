@@ -19,9 +19,12 @@ public class FilesEntity {
     private String filename;
 
     @Column(nullable = false)
+    private String contentType;
+
+    @Column(nullable = false)
     private Integer size;
 
-    @Column(name = "file_content", columnDefinition = "LONGBLOB", nullable = false)
+    @Column(columnDefinition = "LONGBLOB", nullable = false)
     @Lob
-    private byte[] fileContent;
+    private byte[] data;
 }
