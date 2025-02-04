@@ -1,10 +1,10 @@
-package ru.netology.cloudservice.db.repositories;
+package ru.netology.cloudservice.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import ru.netology.cloudservice.db.entities.FilesEntity;
+import ru.netology.cloudservice.model.FilesEntity;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package ru.netology.cloudservice.api.controllers;
+package ru.netology.cloudservice.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -12,10 +12,9 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import ru.netology.cloudservice.api.schemas.BaseSchema;
-import ru.netology.cloudservice.api.schemas.UserSchema;
-import ru.netology.cloudservice.constants.*;
-import ru.netology.cloudservice.services.CustomUserDetailsService;
+import ru.netology.cloudservice.config.Constants.*;
+import ru.netology.cloudservice.dto.UserDto;
+import ru.netology.cloudservice.service.CustomUserDetailsService;
 
 import java.util.List;
 import java.util.UUID;
@@ -33,17 +32,17 @@ public class AuthorizationController {
     }
 
     @PostMapping(Endpoints.LOGIN)
-    public ResponseEntity<BaseSchema> login(@RequestBody UserSchema userSchema, final HttpServletRequest request) {
-        List<GrantedAuthority> authorities = userDetailsService.getAuthorities(userSchema.getLogin());
+    public ResponseEntity<UserDto> login(@RequestBody UserDto userDto, final HttpServletRequest request) {
+        List<GrantedAuthority> authorities = userDetailsService.getAuthorities(userDto.getLogin());
         UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken
-                (userSchema.getLogin(), userSchema.getPassword(), authorities);
+                (userDto.getLogin(), userDto.getPassword(), authorities);
         Authentication auth = authenticationManager.authenticate(authReq);
         if (auth.isAuthenticated()) {
             SecurityContext sc = SecurityContextHolder.getContext();
             sc.setAuthentication(auth);
             HttpSession session = request.getSession(true);
             session.setAttribute(CommonConstants.SPRING_SECURITY_CONTEXT, sc);
-            UserSchema user = new UserSchema(UUID.randomUUID().toString());
+            UserDto user = new UserDto(UUID.randomUUID().toString());
             return ResponseEntity.ok(user);
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessages.BAD_CREDENTIALS);

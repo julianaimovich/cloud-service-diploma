@@ -1,8 +1,8 @@
-package ru.netology.cloudservice.db.repositories;
+package ru.netology.cloudservice.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.netology.cloudservice.db.entities.AuthoritiesEntity;
+import ru.netology.cloudservice.model.AuthoritiesEntity;
 
 import java.util.Optional;
 
