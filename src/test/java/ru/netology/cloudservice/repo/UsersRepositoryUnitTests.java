@@ -1,6 +1,5 @@
 package ru.netology.cloudservice.repo;
 
-import net.datafaker.Faker;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,6 @@ public class UsersRepositoryUnitTests {
 
     @Autowired
     private UsersRepository usersRepository;
-    private final Faker faker = new Faker();
 
     @Test
     @Rollback
@@ -103,7 +101,7 @@ public class UsersRepositoryUnitTests {
     public void updateUserTest() {
         // Arrange
         UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
-        user.setLogin(faker.internet().username());
+        user.setLogin(UsersEntityBuilder.faker.internet().username());
         // Act
         UsersEntity userUpdated =  usersRepository.save(user);
         // Assert

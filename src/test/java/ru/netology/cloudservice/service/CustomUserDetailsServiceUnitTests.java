@@ -26,11 +26,11 @@ import static org.mockito.Mockito.when;
 public class CustomUserDetailsServiceUnitTests {
 
     @Mock
-    private static UsersRepository usersRepository;
+    private UsersRepository usersRepository;
     @Mock
-    private static AuthoritiesRepository authoritiesRepository;
+    private AuthoritiesRepository authoritiesRepository;
     @InjectMocks
-    private static CustomUserDetailsService userDetailsService;
+    private CustomUserDetailsService userDetailsService;
 
     @Test
     @DisplayName("Load user by login")

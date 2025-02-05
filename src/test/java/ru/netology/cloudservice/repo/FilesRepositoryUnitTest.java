@@ -1,6 +1,5 @@
 package ru.netology.cloudservice.repo;
 
-import net.datafaker.Faker;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,6 @@ public class FilesRepositoryUnitTest {
 
     @Autowired
     private FilesRepository filesRepository;
-    private final Faker faker = new Faker();
 
     @Test
     @Rollback
@@ -120,7 +118,7 @@ public class FilesRepositoryUnitTest {
     public void getAllFilesByLimitTest() throws IOException, URISyntaxException {
         // Arrange
         List<FilesEntity> filesList = filesRepository.saveAll(FilesEntityBuilder.getFilesEntityList());
-        Integer limit = faker.number().numberBetween(1, filesList.size() - 1);
+        Integer limit = FilesEntityBuilder.faker.number().numberBetween(1, filesList.size() - 1);
         // Act
         List<FilesEntity> filesListByLimit = filesRepository.findAllByLimit(limit);
         // Assert
@@ -133,7 +131,7 @@ public class FilesRepositoryUnitTest {
     public void updateFileTest() throws IOException, URISyntaxException {
         // Arrange
         FilesEntity file = filesRepository.save(FilesEntityBuilder.getTxtFileEntity());
-        String randomFileFullPath = faker.file().fileName();
+        String randomFileFullPath = FilesEntityBuilder.faker.file().fileName();
         String fileName = Paths.get(randomFileFullPath).getFileName().toString();
         file.setFilename(fileName);
         // Act

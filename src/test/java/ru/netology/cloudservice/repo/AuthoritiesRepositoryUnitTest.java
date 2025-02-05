@@ -1,6 +1,5 @@
 package ru.netology.cloudservice.repo;
 
-import net.datafaker.Faker;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,6 @@ public class AuthoritiesRepositoryUnitTest {
     private AuthoritiesRepository authoritiesRepository;
     @Autowired
     private UsersRepository usersRepository;
-    private final Faker faker = new Faker();
 
     @Test
     @Rollback
@@ -65,7 +63,7 @@ public class AuthoritiesRepositoryUnitTest {
     public void unableToSaveAuthorityWithoutRoleTest() {
         // Arrange
         AuthoritiesEntity authority = AuthoritiesEntity.builder()
-                .login(faker.internet().username()).build();
+                .login(UsersEntityBuilder.faker.internet().username()).build();
         // Act
         DataIntegrityViolationException exception = assertThrows
                 (DataIntegrityViolationException.class, () -> authoritiesRepository.save(authority));
