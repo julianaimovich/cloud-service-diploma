@@ -1,5 +1,6 @@
 package ru.netology.cloudservice.util.builder;
 
+import net.datafaker.Faker;
 import org.apache.commons.io.FileUtils;
 import ru.netology.cloudservice.model.FilesEntity;
 import ru.netology.cloudservice.util.ResourceLoader;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FilesEntityBuilder {
+
+    public static final Faker faker = new Faker();
 
     public static FilesEntity getJpgFileEntity() throws IOException, URISyntaxException {
         File file = ResourceLoader.getFileFromResources(FilesParamValues.FILE_JPG_PATH);

@@ -33,9 +33,9 @@ dependencies {
     implementation 'net.datafaker:datafaker:2.4.2'
     implementation 'jakarta.validation:jakarta.validation-api:2.0.2'
     implementation 'commons-io:commons-io:2.18.0'
+    implementation 'com.h2database:h2:2.2.220'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.15.2'
-    testImplementation 'com.h2database:h2:2.2.220'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

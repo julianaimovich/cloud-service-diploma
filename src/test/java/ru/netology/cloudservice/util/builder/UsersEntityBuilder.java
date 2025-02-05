@@ -5,7 +5,7 @@ import ru.netology.cloudservice.model.UsersEntity;
 
 public class UsersEntityBuilder {
 
-    private static final Faker faker = new Faker();
+    public static final Faker faker = new Faker();
 
     public static UsersEntity getRandomUser() {
         return UsersEntity.builder()

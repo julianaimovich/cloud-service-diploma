@@ -19,24 +19,24 @@ public class FilesService {
         this.filesRepository = filesRepository;
     }
 
-    public void saveFile(String filename, MultipartFile file) throws IOException {
+    public FilesEntity saveFile(String filename, MultipartFile file) throws IOException {
         FilesEntity fileEntity = FilesEntity.builder()
                 .filename(filename)
                 .contentType(file.getContentType())
                 .size((int) file.getSize())
                 .data(file.getBytes())
                 .build();
-        filesRepository.save(fileEntity);
+        return filesRepository.save(fileEntity);
     }
 
-    public void editFile(String filename, String editFilename) throws IOException {
+    public FilesEntity editFile(String filename, String editFilename) throws IOException {
         Optional<FilesEntity> fileEntity = filesRepository.findByFilename(filename);
         if (fileEntity.isEmpty()) {
             throw new IOException(ErrorMessages.ERROR_UPLOAD_FILE);
         }
         FilesEntity fileForEdit = fileEntity.get();
         fileForEdit.setFilename(editFilename);
-        filesRepository.save(fileForEdit);
+        return filesRepository.save(fileForEdit);
     }
 
     public void deleteFile(String filename) throws IOException {
