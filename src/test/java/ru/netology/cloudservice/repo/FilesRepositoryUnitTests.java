@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ActiveProfiles({"test"})
-public class FilesRepositoryUnitTest {
+public class FilesRepositoryUnitTests {
 
     @Autowired
     private FilesRepository filesRepository;

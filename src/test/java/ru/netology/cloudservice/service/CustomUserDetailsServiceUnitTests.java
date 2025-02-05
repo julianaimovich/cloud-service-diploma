@@ -12,7 +12,7 @@ import ru.netology.cloudservice.model.UsersEntity;
 import ru.netology.cloudservice.repository.AuthoritiesRepository;
 import ru.netology.cloudservice.repository.UsersRepository;
 import ru.netology.cloudservice.util.builder.AuthoritiesEntityBuilder;
-import ru.netology.cloudservice.util.builder.UsersEntityBuilder;
+import ru.netology.cloudservice.util.builder.UserBuilder;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +36,7 @@ public class CustomUserDetailsServiceUnitTests {
     @DisplayName("Load user by login")
     public void loadUserByLoginTest() {
         // Given
-        UsersEntity expectedUser = UsersEntityBuilder.getRandomUser();
+        UsersEntity expectedUser = UserBuilder.getRandomUserEntity();
         when(usersRepository.findByLogin(expectedUser.getLogin())).thenReturn(Optional.of(expectedUser));
         // When
         UserDetails result = userDetailsService.loadUserByUsername(expectedUser.getLogin());
@@ -50,7 +50,7 @@ public class CustomUserDetailsServiceUnitTests {
     @DisplayName("Get user authorities by login")
     public void getAuthoritiesByLoginTest() {
         // Given
-        UsersEntity user = UsersEntityBuilder.getRandomUser();
+        UsersEntity user = UserBuilder.getRandomUserEntity();
         AuthoritiesEntity authority = AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin());
         List<GrantedAuthority> expectedAuthorities = AuthoritiesEntityBuilder
                 .getUserGrantedAuthorities(authority);

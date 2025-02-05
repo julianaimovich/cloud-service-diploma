@@ -10,7 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 import ru.netology.cloudservice.model.UsersEntity;
 import ru.netology.cloudservice.repository.UsersRepository;
 import ru.netology.cloudservice.util.TestConstants.ExceptionMessages;
-import ru.netology.cloudservice.util.builder.UsersEntityBuilder;
+import ru.netology.cloudservice.util.builder.UserBuilder;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +30,7 @@ public class UsersRepositoryUnitTests {
     @DisplayName("Save user")
     public void saveUserTest() {
         // Act
-        UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
+        UsersEntity user = usersRepository.save(UserBuilder.getRandomUserEntity());
         List<UsersEntity> allUsersInSystem = usersRepository.findAll();
         // Assert
         assertTrue(allUsersInSystem.contains(user));
@@ -40,7 +40,7 @@ public class UsersRepositoryUnitTests {
     @DisplayName("Unable to save user without login")
     public void unableToSaveUserWithoutLoginTest() {
         // Arrange
-        UsersEntity user = UsersEntityBuilder.getRandomUser();
+        UsersEntity user = UserBuilder.getRandomUserEntity();
         user.setLogin(null);
         // Act
         DataIntegrityViolationException exception = assertThrows
@@ -53,7 +53,7 @@ public class UsersRepositoryUnitTests {
     @DisplayName("Unable to save user without password")
     public void unableToSaveUserWithoutPasswordTest() {
         // Arrange
-        UsersEntity user = UsersEntityBuilder.getRandomUser();
+        UsersEntity user = UserBuilder.getRandomUserEntity();
         user.setPassword(null);
         // Act
         DataIntegrityViolationException exception = assertThrows
@@ -67,7 +67,7 @@ public class UsersRepositoryUnitTests {
     @DisplayName("Get user by id")
     public void getUserByIdTest() {
         // Arrange
-        UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
+        UsersEntity user = usersRepository.save(UserBuilder.getRandomUserEntity());
         // Act
         UsersEntity userFromDb = usersRepository.findById(user.getId()).orElseThrow();
         // Assert
@@ -79,7 +79,7 @@ public class UsersRepositoryUnitTests {
     @DisplayName("Get user by login")
     public void getUserByLoginTest() {
         // Arrange
-        UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
+        UsersEntity user = usersRepository.save(UserBuilder.getRandomUserEntity());
         // Act
         UsersEntity userFromDb = usersRepository.findByLogin(user.getLogin()).orElseThrow();
         // Assert
@@ -100,8 +100,8 @@ public class UsersRepositoryUnitTests {
     @DisplayName("Update user")
     public void updateUserTest() {
         // Arrange
-        UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
-        user.setLogin(UsersEntityBuilder.faker.internet().username());
+        UsersEntity user = usersRepository.save(UserBuilder.getRandomUserEntity());
+        user.setLogin(UserBuilder.faker.internet().username());
         // Act
         UsersEntity userUpdated =  usersRepository.save(user);
         // Assert
@@ -112,7 +112,7 @@ public class UsersRepositoryUnitTests {
     @DisplayName("Delete user")
     public void deleteUserTest() {
         // Arrange
-        UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
+        UsersEntity user = usersRepository.save(UserBuilder.getRandomUserEntity());
         // Act
         usersRepository.delete(user);
         Optional<UsersEntity> optional = usersRepository.findById(user.getId());
