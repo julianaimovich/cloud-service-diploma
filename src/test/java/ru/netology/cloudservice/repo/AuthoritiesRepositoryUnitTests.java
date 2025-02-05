@@ -14,7 +14,7 @@ import ru.netology.cloudservice.repository.UsersRepository;
 import ru.netology.cloudservice.util.TestConstants;
 import ru.netology.cloudservice.util.TestConstants.ExceptionMessages;
 import ru.netology.cloudservice.util.builder.AuthoritiesEntityBuilder;
-import ru.netology.cloudservice.util.builder.UsersEntityBuilder;
+import ru.netology.cloudservice.util.builder.UserBuilder;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ActiveProfiles({"test"})
-public class AuthoritiesRepositoryUnitTest {
+public class AuthoritiesRepositoryUnitTests {
 
     @Autowired
     private AuthoritiesRepository authoritiesRepository;
@@ -36,7 +36,7 @@ public class AuthoritiesRepositoryUnitTest {
     @DisplayName("Save user authority")
     public void saveAuthorityTest() {
         // Arrange
-        UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
+        UsersEntity user = usersRepository.save(UserBuilder.getRandomUserEntity());
         // Act
         AuthoritiesEntity authority = authoritiesRepository.save
                 (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
@@ -63,7 +63,7 @@ public class AuthoritiesRepositoryUnitTest {
     public void unableToSaveAuthorityWithoutRoleTest() {
         // Arrange
         AuthoritiesEntity authority = AuthoritiesEntity.builder()
-                .login(UsersEntityBuilder.faker.internet().username()).build();
+                .login(UserBuilder.faker.internet().username()).build();
         // Act
         DataIntegrityViolationException exception = assertThrows
                 (DataIntegrityViolationException.class, () -> authoritiesRepository.save(authority));
@@ -76,7 +76,7 @@ public class AuthoritiesRepositoryUnitTest {
     @DisplayName("Get user authority by id")
     public void getAuthorityByIdTest() {
         // Arrange
-        UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
+        UsersEntity user = usersRepository.save(UserBuilder.getRandomUserEntity());
         AuthoritiesEntity authority = authoritiesRepository.save
                 (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
         // Act
@@ -91,7 +91,7 @@ public class AuthoritiesRepositoryUnitTest {
     @DisplayName("Get authority by user login")
     public void getAuthorityByLoginTest() {
         // Arrange
-        UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
+        UsersEntity user = usersRepository.save(UserBuilder.getRandomUserEntity());
         AuthoritiesEntity authority = authoritiesRepository.save
                 (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
         // Act
@@ -115,7 +115,7 @@ public class AuthoritiesRepositoryUnitTest {
     @DisplayName("Update user authority")
     public void updateAuthorityTest() {
         // Arrange
-        UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
+        UsersEntity user = usersRepository.save(UserBuilder.getRandomUserEntity());
         AuthoritiesEntity authority = authoritiesRepository.save
                 (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
         authority.setAuthority(TestConstants.RoleAuthorities.ROLE_USER_AUTHORITY);
@@ -130,7 +130,7 @@ public class AuthoritiesRepositoryUnitTest {
     @DisplayName("Delete user authority")
     public void deleteAuthorityTest() {
         // Arrange
-        UsersEntity user = usersRepository.save(UsersEntityBuilder.getRandomUser());
+        UsersEntity user = usersRepository.save(UserBuilder.getRandomUserEntity());
         AuthoritiesEntity authority = authoritiesRepository.save
                 (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
         // Act
