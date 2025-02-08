@@ -3,7 +3,9 @@ package ru.netology.cloudservice.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +13,7 @@ import ru.netology.cloudservice.model.AuthoritiesEntity;
 import ru.netology.cloudservice.model.UsersEntity;
 import ru.netology.cloudservice.repository.AuthoritiesRepository;
 import ru.netology.cloudservice.repository.UsersRepository;
-import ru.netology.cloudservice.util.builder.AuthoritiesEntityBuilder;
+import ru.netology.cloudservice.util.builder.AuthoritiesBuilder;
 import ru.netology.cloudservice.util.builder.UserBuilder;
 
 import java.util.List;
@@ -51,8 +53,8 @@ public class CustomUserDetailsServiceUnitTests {
     public void getAuthoritiesByLoginTest() {
         // Given
         UsersEntity user = UserBuilder.getRandomUserEntity();
-        AuthoritiesEntity authority = AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin());
-        List<GrantedAuthority> expectedAuthorities = AuthoritiesEntityBuilder
+        AuthoritiesEntity authority = AuthoritiesBuilder.getAdminAuthorityForUser(user.getLogin());
+        List<GrantedAuthority> expectedAuthorities = AuthoritiesBuilder
                 .getUserGrantedAuthorities(authority);
         when(authoritiesRepository.findByLogin(user.getLogin())).thenReturn(Optional.of(authority));
         // When

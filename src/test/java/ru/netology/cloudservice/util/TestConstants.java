@@ -8,10 +8,13 @@ public interface TestConstants {
     }
 
     interface FilesParamValues {
-        String FILE_JPG_PATH = "testFiles/popug.jpg";
+        String FILE_JPG_PATH = "testFiles/parrot.jpg";
         String FILE_TXT_PATH = "testFiles/text.txt";
-        String IMAGE_CONTENT_TYPE = "image/jpeg";
-        String TEXT_CONTENT_TYPE = "text/plain";
+        String FILENAME_PARAM = "filename";
+        String FILE_PARAM = "file";
+        String EDIT_FILE_NAME = "kek.jpg";
+        String LIMIT_PARAM = "limit";
+        Long FILE_DEFAULT_ID = 100L;
     }
 
     interface ExceptionMessages {

@@ -2,7 +2,9 @@ package ru.netology.cloudservice.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import ru.netology.cloudservice.config.Constants.Endpoints;
 import ru.netology.cloudservice.dto.UserDto;
 import ru.netology.cloudservice.service.AuthService;
@@ -20,10 +22,5 @@ public class AuthorizationController {
     public ResponseEntity<UserDto> login(@RequestBody UserDto userDto, HttpServletRequest request) {
         UserDto user = authService.authenticate(userDto, request);
         return ResponseEntity.ok(user);
-    }
-
-    @GetMapping(Endpoints.LOGIN)
-    public String login() {
-        return "login";
     }
 }

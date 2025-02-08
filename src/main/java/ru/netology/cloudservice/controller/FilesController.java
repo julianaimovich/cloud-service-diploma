@@ -3,7 +3,9 @@ package ru.netology.cloudservice.controller;
 import org.apache.coyote.BadRequestException;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.netology.cloudservice.config.Constants.Endpoints;
@@ -47,7 +49,7 @@ public class FilesController {
     }
 
     @PutMapping(Endpoints.FILE)
-    public ResponseEntity<FileDto> editFile(@RequestParam String filename,
+    public ResponseEntity<HttpStatus> editFile(@RequestParam String filename,
                                                @RequestBody FileDto editFile) throws IOException {
         if (filename == null || filename.isEmpty() || editFile == null) {
             throw new BadRequestException(ErrorMessages.ERROR_INPUT_DATA);

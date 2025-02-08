@@ -10,7 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 import ru.netology.cloudservice.model.FilesEntity;
 import ru.netology.cloudservice.repository.FilesRepository;
 import ru.netology.cloudservice.util.TestConstants;
-import ru.netology.cloudservice.util.builder.FilesEntityBuilder;
+import ru.netology.cloudservice.util.builder.FileBuilder;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -19,7 +19,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @ActiveProfiles({"test"})
@@ -33,7 +35,7 @@ public class FilesRepositoryUnitTests {
     @DisplayName("Save file with \".jpg\" extension")
     public void saveFileWithJpgExtensionTest() throws IOException, URISyntaxException {
         // Act
-        FilesEntity file = filesRepository.save(FilesEntityBuilder.getJpgFileEntity());
+        FilesEntity file = filesRepository.save(FileBuilder.getJpgFileEntity());
         List<FilesEntity> allFilesInSystem = filesRepository.findAll();
         // Assert
         assertTrue(allFilesInSystem.contains(file));
@@ -44,7 +46,7 @@ public class FilesRepositoryUnitTests {
     @DisplayName("Save file with \".txt\" extension")
     public void saveFileWithTxtExtensionTest() throws IOException, URISyntaxException {
         // Act
-        FilesEntity file = filesRepository.save(FilesEntityBuilder.getTxtFileEntity());
+        FilesEntity file = filesRepository.save(FileBuilder.getTxtFileEntity());
         List<FilesEntity> allFilesInSystem = filesRepository.findAll();
         // Assert
         assertTrue(allFilesInSystem.contains(file));
@@ -54,7 +56,7 @@ public class FilesRepositoryUnitTests {
     @DisplayName("Unable to save file without file name")
     public void unableToSaveFileWithoutFileNameTest() throws IOException, URISyntaxException {
         // Arrange
-        FilesEntity file = FilesEntityBuilder.getTxtFileEntity();
+        FilesEntity file = FileBuilder.getTxtFileEntity();
         file.setFilename(null);
         // Act
         DataIntegrityViolationException exception = assertThrows
@@ -67,7 +69,7 @@ public class FilesRepositoryUnitTests {
     @DisplayName("Unable to save file without file content")
     public void unableToSaveFileWithoutFileContentTest() throws IOException, URISyntaxException {
         // Arrange
-        FilesEntity file = FilesEntityBuilder.getTxtFileEntity();
+        FilesEntity file = FileBuilder.getTxtFileEntity();
         file.setData(null);
         // Act
         DataIntegrityViolationException exception = assertThrows
@@ -81,7 +83,7 @@ public class FilesRepositoryUnitTests {
     @DisplayName("Get file by id")
     public void getFileByIdTest() throws IOException, URISyntaxException {
         // Arrange
-        FilesEntity file = filesRepository.save(FilesEntityBuilder.getTxtFileEntity());
+        FilesEntity file = filesRepository.save(FileBuilder.getTxtFileEntity());
         // Act
         FilesEntity fileFromDb = filesRepository.findById(file.getId()).orElseThrow();
         // Assert
@@ -93,7 +95,7 @@ public class FilesRepositoryUnitTests {
     @DisplayName("Get file by file name")
     public void getFileByFileNameTest() throws IOException, URISyntaxException {
         // Arrange
-        FilesEntity file = filesRepository.save(FilesEntityBuilder.getJpgFileEntity());
+        FilesEntity file = filesRepository.save(FileBuilder.getJpgFileEntity());
         // Act
         FilesEntity fileFromDb = filesRepository.findByFilename(file.getFilename()).orElseThrow();
         // Assert
@@ -105,7 +107,7 @@ public class FilesRepositoryUnitTests {
     @DisplayName("Get all existing files")
     public void getAllFilesTest() throws IOException, URISyntaxException {
         // Arrange
-        filesRepository.saveAll(FilesEntityBuilder.getFilesEntityList());
+        filesRepository.saveAll(FileBuilder.getFilesEntityList());
         // Act
         List<FilesEntity> filesList = filesRepository.findAll();
         // Assert
@@ -117,8 +119,8 @@ public class FilesRepositoryUnitTests {
     @DisplayName("Get all files by limit")
     public void getAllFilesByLimitTest() throws IOException, URISyntaxException {
         // Arrange
-        List<FilesEntity> filesList = filesRepository.saveAll(FilesEntityBuilder.getFilesEntityList());
-        Integer limit = FilesEntityBuilder.faker.number().numberBetween(1, filesList.size() - 1);
+        List<FilesEntity> filesList = filesRepository.saveAll(FileBuilder.getFilesEntityList());
+        Integer limit = FileBuilder.faker.number().numberBetween(1, filesList.size() - 1);
         // Act
         List<FilesEntity> filesListByLimit = filesRepository.findAllByLimit(limit);
         // Assert
@@ -130,8 +132,8 @@ public class FilesRepositoryUnitTests {
     @DisplayName("Update file")
     public void updateFileTest() throws IOException, URISyntaxException {
         // Arrange
-        FilesEntity file = filesRepository.save(FilesEntityBuilder.getTxtFileEntity());
-        String randomFileFullPath = FilesEntityBuilder.faker.file().fileName();
+        FilesEntity file = filesRepository.save(FileBuilder.getTxtFileEntity());
+        String randomFileFullPath = FileBuilder.faker.file().fileName();
         String fileName = Paths.get(randomFileFullPath).getFileName().toString();
         file.setFilename(fileName);
         // Act
@@ -144,7 +146,7 @@ public class FilesRepositoryUnitTests {
     @DisplayName("Delete file")
     public void deleteUserTest() throws IOException, URISyntaxException {
         // Arrange
-        FilesEntity file = filesRepository.save(FilesEntityBuilder.getJpgFileEntity());
+        FilesEntity file = filesRepository.save(FileBuilder.getJpgFileEntity());
         // Act
         filesRepository.delete(file);
         Optional<FilesEntity> optional = filesRepository.findById(file.getId());
