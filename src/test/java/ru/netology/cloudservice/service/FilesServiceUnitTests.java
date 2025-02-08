@@ -113,12 +113,13 @@ public class FilesServiceUnitTests {
         IntStream.range(0, filesList.size()).forEach
                 (i -> filesList.get(i).setId((long) i));
         Integer limit = FileBuilder.faker.number().numberBetween(1, filesList.size() - 1);
-        when(filesRepository.findAllByLimit(limit)).thenReturn(filesList);
+        List<FilesEntity> expectedFilesList = filesList.subList(0, limit);
+        when(filesRepository.findAllByLimit(limit)).thenReturn(expectedFilesList);
         // When
         List<FileDto> result = filesService.getAllFilesByLimit(limit);
         // Then
         assertNotNull(result);
-        assertEquals(filesList.size(), result.size());
+        assertEquals(expectedFilesList.size(), result.size());
         verify(filesRepository, Mockito.times(1))
                 .findAllByLimit(limit);
     }

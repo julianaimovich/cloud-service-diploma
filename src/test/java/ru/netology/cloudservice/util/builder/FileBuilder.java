@@ -3,6 +3,7 @@ package ru.netology.cloudservice.util.builder;
 import net.datafaker.Faker;
 import org.apache.commons.io.FileUtils;
 import org.springframework.http.MediaType;
+import org.springframework.http.MediaTypeFactory;
 import org.springframework.mock.web.MockMultipartFile;
 import ru.netology.cloudservice.dto.FileDto;
 import ru.netology.cloudservice.model.FilesEntity;
@@ -49,11 +50,12 @@ public class FileBuilder {
         return list;
     }
 
-    public static FileDto getFileForRequest() throws URISyntaxException {
+    public static FileDto getJpgFileForRequest() throws URISyntaxException {
         File file = ResourceLoader.getFileFromResources(FilesParamValues.FILE_JPG_PATH);
         return FileDto.builder()
                 .filename(file.getName())
                 .file(file)
+                .contentType(MediaType.IMAGE_JPEG_VALUE)
                 .build();
     }
 
@@ -67,14 +69,24 @@ public class FileBuilder {
         }
     }
 
+    public static List<FileDto> getFileDtoList() throws URISyntaxException {
+        List<FileDto> list = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            FileDto fileDto = getJpgFileForRequest();
+            list.add(new FileDto(fileDto.getFilename(), fileDto.getSize()));
+        }
+        return list;
+    }
+
     public static FilesEntity fileDtoToEntity(FileDto fileDto) throws IOException {
-        byte[] fileContent = FileUtils.readFileToByteArray(fileDto.getFile());
+        File fileContent = fileDto.getFile();
+        MediaType contentType = MediaTypeFactory.getMediaType(fileContent.getName()).orElseThrow();
         return FilesEntity.builder()
                 .id(FilesParamValues.FILE_DEFAULT_ID)
                 .filename(fileDto.getFilename())
-                .contentType(MediaType.IMAGE_JPEG_VALUE)
+                .contentType(contentType.getType())
                 .size(fileDto.getSize())
-                .data(fileContent)
+                .data(FileUtils.readFileToByteArray(fileContent))
                 .build();
     }
 }

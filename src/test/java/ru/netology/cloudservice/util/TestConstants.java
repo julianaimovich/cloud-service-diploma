@@ -12,6 +12,8 @@ public interface TestConstants {
         String FILE_TXT_PATH = "testFiles/text.txt";
         String FILENAME_PARAM = "filename";
         String FILE_PARAM = "file";
+        String EDIT_FILE_NAME = "kek.jpg";
+        String LIMIT_PARAM = "limit";
         Long FILE_DEFAULT_ID = 100L;
     }
 

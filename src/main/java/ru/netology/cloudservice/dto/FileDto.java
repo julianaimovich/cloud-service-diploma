@@ -13,9 +13,15 @@ import java.io.File;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FileDto {
     private String filename;
+    private Integer size;
     @JsonIgnore
     private File file;
-    private Integer size;
+    @JsonIgnore
+    private String contentType;
+
+    public FileDto(String filename) {
+        this.filename = filename;
+    }
 
     public FileDto(String filename, Integer size) {
         this.filename = filename;

@@ -49,7 +49,7 @@ public class FilesController {
     }
 
     @PutMapping(Endpoints.FILE)
-    public ResponseEntity<FileDto> editFile(@RequestParam String filename,
+    public ResponseEntity<HttpStatus> editFile(@RequestParam String filename,
                                                @RequestBody FileDto editFile) throws IOException {
         if (filename == null || filename.isEmpty() || editFile == null) {
             throw new BadRequestException(ErrorMessages.ERROR_INPUT_DATA);
