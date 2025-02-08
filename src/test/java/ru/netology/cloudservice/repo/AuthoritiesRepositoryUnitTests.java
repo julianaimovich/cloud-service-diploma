@@ -13,7 +13,7 @@ import ru.netology.cloudservice.repository.AuthoritiesRepository;
 import ru.netology.cloudservice.repository.UsersRepository;
 import ru.netology.cloudservice.util.TestConstants.ExceptionMessages;
 import ru.netology.cloudservice.util.TestConstants.RoleAuthorities;
-import ru.netology.cloudservice.util.builder.AuthoritiesEntityBuilder;
+import ru.netology.cloudservice.util.builder.AuthoritiesBuilder;
 import ru.netology.cloudservice.util.builder.UserBuilder;
 
 import java.util.List;
@@ -41,7 +41,7 @@ public class AuthoritiesRepositoryUnitTests {
         UsersEntity user = usersRepository.save(UserBuilder.getRandomUserEntity());
         // Act
         AuthoritiesEntity authority = authoritiesRepository.save
-                (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
+                (AuthoritiesBuilder.getAdminAuthorityForUser(user.getLogin()));
         List<AuthoritiesEntity> allAuthoritiesInSystem = authoritiesRepository.findAll();
         // Assert
         assertTrue(allAuthoritiesInSystem.contains(authority));
@@ -80,7 +80,7 @@ public class AuthoritiesRepositoryUnitTests {
         // Arrange
         UsersEntity user = usersRepository.save(UserBuilder.getRandomUserEntity());
         AuthoritiesEntity authority = authoritiesRepository.save
-                (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
+                (AuthoritiesBuilder.getAdminAuthorityForUser(user.getLogin()));
         // Act
         AuthoritiesEntity authorityFromDb = authoritiesRepository.findById
                 (authority.getId()).orElseThrow();
@@ -95,7 +95,7 @@ public class AuthoritiesRepositoryUnitTests {
         // Arrange
         UsersEntity user = usersRepository.save(UserBuilder.getRandomUserEntity());
         AuthoritiesEntity authority = authoritiesRepository.save
-                (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
+                (AuthoritiesBuilder.getAdminAuthorityForUser(user.getLogin()));
         // Act
         AuthoritiesEntity authorityFromDb = authoritiesRepository.findByLogin
                 (user.getLogin()).orElseThrow();
@@ -119,7 +119,7 @@ public class AuthoritiesRepositoryUnitTests {
         // Arrange
         UsersEntity user = usersRepository.save(UserBuilder.getRandomUserEntity());
         AuthoritiesEntity authority = authoritiesRepository.save
-                (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
+                (AuthoritiesBuilder.getAdminAuthorityForUser(user.getLogin()));
         authority.setAuthority(RoleAuthorities.ROLE_USER_AUTHORITY);
         // Act
         AuthoritiesEntity authorityUpdated =  authoritiesRepository.save(authority);
@@ -134,7 +134,7 @@ public class AuthoritiesRepositoryUnitTests {
         // Arrange
         UsersEntity user = usersRepository.save(UserBuilder.getRandomUserEntity());
         AuthoritiesEntity authority = authoritiesRepository.save
-                (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
+                (AuthoritiesBuilder.getAdminAuthorityForUser(user.getLogin()));
         // Act
         authoritiesRepository.delete(authority);
         Optional<AuthoritiesEntity> optional = authoritiesRepository.findById(authority.getId());

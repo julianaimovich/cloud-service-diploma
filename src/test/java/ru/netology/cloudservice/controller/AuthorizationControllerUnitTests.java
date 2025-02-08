@@ -37,7 +37,7 @@ public class AuthorizationControllerUnitTests {
 
     @Test
     @DisplayName("Should authenticate user and return token")
-    void shouldAuthenticateUserAndReturnToken() throws Exception {
+    void shouldAuthenticateUserAndReturnTokenTest() throws Exception {
         // Given
         UserDto requestDto = UserBuilder.getRandomUserForRequest();
         UserDto responseDto = UserBuilder.getRandomAuthTokenForResponse();

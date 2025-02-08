@@ -9,7 +9,7 @@ import java.util.List;
 
 import static ru.netology.cloudservice.util.TestConstants.RoleAuthorities.ROLE_ADMIN_AUTHORITY;
 
-public class AuthoritiesEntityBuilder {
+public class AuthoritiesBuilder {
 
     public static AuthoritiesEntity getAdminAuthorityForUser(String login) {
         return AuthoritiesEntity.builder()
