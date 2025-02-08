@@ -15,6 +15,11 @@ public class UserDto {
     @JsonProperty("auth-token")
     private String authToken;
 
+    public UserDto(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
     public UserDto(String authToken) {
         this.authToken = authToken;
     }

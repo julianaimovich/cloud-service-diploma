@@ -7,7 +7,7 @@ import ru.netology.cloudservice.model.AuthoritiesEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.netology.cloudservice.util.TestConstants.RoleAuthorities.ROLE_ADMIN_AUTHORITY;
+import static ru.netology.cloudservice.util.TestConstants.UserParamValues.ROLE_ADMIN_AUTHORITY;
 
 public class AuthoritiesEntityBuilder {
 

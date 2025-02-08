@@ -13,6 +13,7 @@ import ru.netology.cloudservice.repository.AuthoritiesRepository;
 import ru.netology.cloudservice.repository.UsersRepository;
 import ru.netology.cloudservice.util.TestConstants;
 import ru.netology.cloudservice.util.TestConstants.ExceptionMessages;
+import ru.netology.cloudservice.util.TestConstants.UserParamValues;
 import ru.netology.cloudservice.util.builder.AuthoritiesEntityBuilder;
 import ru.netology.cloudservice.util.builder.UserBuilder;
 
@@ -20,7 +21,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @ActiveProfiles({"test"})
@@ -50,7 +53,7 @@ public class AuthoritiesRepositoryUnitTests {
     public void unableToSaveAuthorityWithoutLoginTest() {
         // Arrange
         AuthoritiesEntity authority = AuthoritiesEntity.builder()
-                .authority(TestConstants.RoleAuthorities.ROLE_ADMIN_AUTHORITY).build();
+                .authority(UserParamValues.ROLE_ADMIN_AUTHORITY).build();
         // Act
         DataIntegrityViolationException exception = assertThrows
                 (DataIntegrityViolationException.class, () -> authoritiesRepository.save(authority));
@@ -118,7 +121,7 @@ public class AuthoritiesRepositoryUnitTests {
         UsersEntity user = usersRepository.save(UserBuilder.getRandomUserEntity());
         AuthoritiesEntity authority = authoritiesRepository.save
                 (AuthoritiesEntityBuilder.getAdminAuthorityForUser(user.getLogin()));
-        authority.setAuthority(TestConstants.RoleAuthorities.ROLE_USER_AUTHORITY);
+        authority.setAuthority(UserParamValues.ROLE_USER_AUTHORITY);
         // Act
         AuthoritiesEntity authorityUpdated =  authoritiesRepository.save(authority);
         // Assert
