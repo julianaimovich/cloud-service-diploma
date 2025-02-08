@@ -2,12 +2,9 @@ package ru.netology.cloudservice.util;
 
 public interface TestConstants {
 
-    interface UserParamValues {
+    interface RoleAuthorities {
         String ROLE_ADMIN_AUTHORITY = "ROLE_ADMIN";
         String ROLE_USER_AUTHORITY = "ROLE_USER";
-        String TEST_LOGIN = "user";
-        String TEST_PASSWORD = "password";
-        String TEST_TOKEN = "mocked-token";
     }
 
     interface FilesParamValues {

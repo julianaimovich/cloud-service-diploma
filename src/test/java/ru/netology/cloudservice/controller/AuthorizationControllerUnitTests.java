@@ -10,18 +10,17 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.netology.cloudservice.config.Constants;
+import org.springframework.test.web.servlet.ResultActions;
+import ru.netology.cloudservice.config.Constants.Endpoints;
 import ru.netology.cloudservice.dto.UserDto;
 import ru.netology.cloudservice.service.AuthService;
+import ru.netology.cloudservice.util.builder.UserBuilder;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.netology.cloudservice.util.TestConstants.UserParamValues.TEST_LOGIN;
-import static ru.netology.cloudservice.util.TestConstants.UserParamValues.TEST_PASSWORD;
-import static ru.netology.cloudservice.util.TestConstants.UserParamValues.TEST_TOKEN;
 
 @WebMvcTest(AuthorizationController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -40,16 +39,16 @@ public class AuthorizationControllerUnitTests {
     @DisplayName("Should authenticate user and return token")
     void shouldAuthenticateUserAndReturnToken() throws Exception {
         // Given
-        UserDto requestDto = new UserDto(TEST_LOGIN, TEST_PASSWORD);
-        UserDto responseDto = new UserDto(TEST_TOKEN);
-        // When
+        UserDto requestDto = UserBuilder.getRandomUserForRequest();
+        UserDto responseDto = UserBuilder.getRandomAuthTokenForResponse();
         when(authService.authenticate(any(UserDto.class), any(HttpServletRequest.class)))
                 .thenReturn(responseDto);
+        // When
+        ResultActions response = mockMvc.perform(post(Endpoints.LOGIN)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto)));
         // Then
-        mockMvc.perform(post(Constants.Endpoints.LOGIN)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(requestDto)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.auth-token").value(TEST_TOKEN));
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.auth-token").value(responseDto.getAuthToken()));
     }
 }
