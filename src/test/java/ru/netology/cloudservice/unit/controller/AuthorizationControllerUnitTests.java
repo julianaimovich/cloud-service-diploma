@@ -1,4 +1,4 @@
-package ru.netology.cloudservice.controller;
+package ru.netology.cloudservice.unit.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +12,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import ru.netology.cloudservice.config.Constants.Endpoints;
+import ru.netology.cloudservice.controller.AuthorizationController;
 import ru.netology.cloudservice.dto.UserDto;
 import ru.netology.cloudservice.service.AuthService;
 import ru.netology.cloudservice.util.builder.UserBuilder;

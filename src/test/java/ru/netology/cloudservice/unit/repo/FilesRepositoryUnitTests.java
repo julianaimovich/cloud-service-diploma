@@ -1,4 +1,4 @@
-package ru.netology.cloudservice.repo;
+package ru.netology.cloudservice.unit.repo;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

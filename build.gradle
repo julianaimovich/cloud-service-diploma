@@ -36,7 +36,12 @@ dependencies {
     implementation 'com.h2database:h2:2.2.220'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.15.2'
+    testImplementation "org.testcontainers:junit-jupiter:1.20.4"
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    jvmArgs '-Dtestcontainers.reuse.enable=true', '-Dtestcontainers.ryuk.disabled=true'
 }
 
 tasks.named('test') {

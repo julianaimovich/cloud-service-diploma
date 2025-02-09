@@ -1,4 +1,4 @@
-package ru.netology.cloudservice.controller;
+package ru.netology.cloudservice.unit.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
@@ -13,6 +13,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import ru.netology.cloudservice.config.Constants.Endpoints;
+import ru.netology.cloudservice.controller.FilesController;
 import ru.netology.cloudservice.dto.FileDto;
 import ru.netology.cloudservice.model.FilesEntity;
 import ru.netology.cloudservice.service.FilesService;

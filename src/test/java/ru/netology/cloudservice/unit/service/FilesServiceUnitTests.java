@@ -1,4 +1,4 @@
-package ru.netology.cloudservice.service;
+package ru.netology.cloudservice.unit.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,6 +12,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import ru.netology.cloudservice.dto.FileDto;
 import ru.netology.cloudservice.model.FilesEntity;
 import ru.netology.cloudservice.repository.FilesRepository;
+import ru.netology.cloudservice.service.FilesService;
 import ru.netology.cloudservice.util.MockUtil;
 import ru.netology.cloudservice.util.TestConstants.FilesParamValues;
 import ru.netology.cloudservice.util.builder.FileBuilder;
