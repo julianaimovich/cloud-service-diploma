@@ -4,3 +4,14 @@ spring.profiles.include: prod, test
 spring.profiles.active: prod
 spring.jpa.show-sql: true
 spring.jackson.serialization.fail-on-empty-beans: false
+
+#remove in final commit
+spring.mvc.log-request-details: true
+logging:
+  level:
+    com:
+      zaxxer:
+        hikari: DEBUG
+    org:
+      springframework: DEBUG
+      hibernate: DEBUG

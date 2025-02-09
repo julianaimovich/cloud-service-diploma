@@ -3,6 +3,7 @@ package ru.netology.cloudservice.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import ru.netology.cloudservice.config.Constants.CommonConstants;
 
 @Data
 @Builder
@@ -12,7 +13,7 @@ import lombok.*;
 public class UserDto {
     private String login;
     private String password;
-    @JsonProperty("auth-token")
+    @JsonProperty(CommonConstants.AUTH_TOKEN)
     private String authToken;
 
     public UserDto(String authToken) {
