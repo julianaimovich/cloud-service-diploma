@@ -7,11 +7,18 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import ru.netology.cloudservice.config.Constants.ErrorMessages;
 
+import java.io.FileNotFoundException;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(FileUploadException.class)
     public ResponseEntity<String> handleFileUploadException(FileUploadException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessages.ERROR_INPUT_DATA);
+    }
+
+    @ExceptionHandler(FileNotFoundException.class)
+    public ResponseEntity<String> handleFileNotFound(FileNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessages.ERROR_INPUT_DATA);
     }
 }

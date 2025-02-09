@@ -33,11 +33,9 @@ public class ServerUtils {
 
     public static Response login() throws JsonProcessingException {
         UserDto userDto = UserBuilder.getExistentUserForRequest();
-        SessionFilter sessionFilter = new SessionFilter();
         return RestAssured.given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(BaseConverter.convertClassToJsonString(userDto))
-                .filter(sessionFilter)
                 .when()
                 .post(Constants.Endpoints.LOGIN)
                 .then()

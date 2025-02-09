@@ -9,14 +9,3 @@ management.endpoints.web.exposure.include: health
 management.endpoint.health.show-details: always
 management.endpoint.health.probes.enabled: true
 management.health.db.enabled: true
-
-#remove in final commit
-spring.mvc.log-request-details: true
-logging:
-  level:
-    com:
-      zaxxer:
-        hikari: DEBUG
-    org:
-      springframework: DEBUG
-      hibernate: DEBUG
