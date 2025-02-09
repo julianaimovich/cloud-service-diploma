@@ -2,6 +2,12 @@ package ru.netology.cloudservice.util;
 
 public interface TestConstants {
 
+    interface ServerParams {
+        String SERVER_URI = "http://localhost:8080";
+        String DOCKER_COMPOSE_FILE = "docker-compose.yml";
+        String ACTUATOR_HEALTH_ENDPOINT = "/actuator/health";
+    }
+
     interface UserSessionValues {
         String ROLE_ADMIN_AUTHORITY = "ROLE_ADMIN";
         String ROLE_USER_AUTHORITY = "ROLE_USER";

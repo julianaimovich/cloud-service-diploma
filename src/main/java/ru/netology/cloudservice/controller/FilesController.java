@@ -1,5 +1,6 @@
 package ru.netology.cloudservice.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.coyote.BadRequestException;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -28,7 +29,7 @@ public class FilesController {
     @PostMapping(path = Endpoints.FILE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<FileDto> uploadFile(@RequestParam String filename,
                                               @RequestBody MultipartFile file) throws IOException {
-        if (filename == null || filename.isEmpty() || file == null) {
+        if (StringUtils.isBlank(filename) || file.isEmpty()) {
             throw new BadRequestException(ErrorMessages.ERROR_INPUT_DATA);
         }
         filesService.saveFile(filename, file);
@@ -51,7 +52,7 @@ public class FilesController {
     @PutMapping(Endpoints.FILE)
     public ResponseEntity<HttpStatus> editFile(@RequestParam String filename,
                                                @RequestBody FileDto editFile) throws IOException {
-        if (filename == null || filename.isEmpty() || editFile == null) {
+        if (StringUtils.isBlank(filename) || editFile == null) {
             throw new BadRequestException(ErrorMessages.ERROR_INPUT_DATA);
         }
         filesService.editFile(filename, editFile.getFilename());
@@ -60,7 +61,7 @@ public class FilesController {
 
     @DeleteMapping(Endpoints.FILE)
     public ResponseEntity<HttpStatus> deleteFile(@RequestParam String filename) throws IOException {
-        if (filename == null || filename.isEmpty()) {
+        if (StringUtils.isBlank(filename)) {
             throw new BadRequestException(ErrorMessages.ERROR_INPUT_DATA);
         }
         filesService.deleteFile(filename);

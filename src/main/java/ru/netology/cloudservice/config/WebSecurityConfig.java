@@ -83,6 +83,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(Endpoints.LOGIN).permitAll()
                         .requestMatchers(Endpoints.LOGOUT).authenticated()
+                        .requestMatchers("/actuator/health").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(authEntryPoint) // 401 Handler
