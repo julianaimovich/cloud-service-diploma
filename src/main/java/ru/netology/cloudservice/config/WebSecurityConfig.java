@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -25,9 +26,11 @@ import javax.sql.DataSource;
 public class WebSecurityConfig {
 
     private final DataSource dataSource;
+    private final CustomAuthenticationEntryPoint authEntryPoint;
 
-    public WebSecurityConfig(DataSource dataSource) {
+    public WebSecurityConfig(DataSource dataSource, CustomAuthenticationEntryPoint authEntryPoint) {
         this.dataSource = dataSource;
+        this.authEntryPoint = authEntryPoint;
     }
 
     @Bean
@@ -56,6 +59,13 @@ public class WebSecurityConfig {
         };
     }
 
+    public AccessDeniedHandler customAccessDeniedHandler() {
+        return (request, response, accessDeniedException) -> {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403
+            response.getWriter().write("Access Denied: You don't have the required role!");
+        };
+    }
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
@@ -74,6 +84,9 @@ public class WebSecurityConfig {
                         .requestMatchers(Endpoints.LOGIN).permitAll()
                         .requestMatchers(Endpoints.LOGOUT).authenticated()
                         .anyRequest().authenticated())
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(authEntryPoint) // 401 Handler
+                        .accessDeniedHandler(customAccessDeniedHandler())) // 403 Handler
                 .logout(logout -> logout
                         .logoutUrl(Endpoints.LOGOUT)
                         .logoutSuccessHandler((request, response, authentication) -> {

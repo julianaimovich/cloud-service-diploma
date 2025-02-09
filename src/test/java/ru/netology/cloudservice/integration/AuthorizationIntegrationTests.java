@@ -11,12 +11,17 @@ import org.springframework.http.MediaType;
 import org.testcontainers.containers.DockerComposeContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import ru.netology.cloudservice.config.Constants.Endpoints;
+import ru.netology.cloudservice.dto.FileDto;
 import ru.netology.cloudservice.dto.UserDto;
 import ru.netology.cloudservice.util.BaseConverter;
+import ru.netology.cloudservice.util.TestConstants.FilesParamValues;
 import ru.netology.cloudservice.util.TestConstants.UserSessionValues;
+import ru.netology.cloudservice.util.builder.FileBuilder;
 import ru.netology.cloudservice.util.builder.UserBuilder;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.notNullValue;
@@ -119,6 +124,29 @@ public class AuthorizationIntegrationTests {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when()
                 .post(Endpoints.LOGOUT)
+                .then()
+                .statusCode(HttpStatus.UNAUTHORIZED.value());
+    }
+
+    @Test
+    @DisplayName("User can't get list of files without authorization")
+    public void userCanNotGetListOfFilesWithoutAuthorizationTest() {
+        RestAssured.given()
+                .when()
+                .get(Endpoints.GET_ALL_FILES)
+                .then()
+                .statusCode(HttpStatus.UNAUTHORIZED.value());
+    }
+
+    @Test
+    @DisplayName("User can't upload file without authorization")
+    public void userCanNotUploadFileWithoutAuthorizationTest() throws URISyntaxException {
+        FileDto fileForRequest = FileBuilder.getJpgFileForRequest();
+        RestAssured.given()
+                .multiPart(FilesParamValues.FILE_PARAM, fileForRequest.getFile())
+                .param(FilesParamValues.FILENAME_PARAM, fileForRequest.getFilename())
+                .when()
+                .post(Endpoints.FILE)
                 .then()
                 .statusCode(HttpStatus.UNAUTHORIZED.value());
     }
