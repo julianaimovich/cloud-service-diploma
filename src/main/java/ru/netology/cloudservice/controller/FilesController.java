@@ -27,8 +27,8 @@ public class FilesController {
     }
 
     @PostMapping(path = Endpoints.FILE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<FileDto> uploadFile(@RequestParam String filename,
-                                              @RequestBody MultipartFile file) throws IOException {
+    public ResponseEntity<HttpStatus> uploadFile(@RequestParam String filename,
+                                              @RequestParam MultipartFile file) throws IOException {
         if (StringUtils.isBlank(filename) || file.isEmpty()) {
             throw new BadRequestException(ErrorMessages.ERROR_INPUT_DATA);
         }

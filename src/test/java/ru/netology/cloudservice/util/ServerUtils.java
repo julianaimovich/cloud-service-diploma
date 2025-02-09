@@ -3,6 +3,7 @@ package ru.netology.cloudservice.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.RestAssured;
 import io.restassured.filter.cookie.CookieFilter;
+import io.restassured.filter.session.SessionFilter;
 import io.restassured.response.Response;
 import org.springframework.http.MediaType;
 import ru.netology.cloudservice.config.Constants;
@@ -32,9 +33,11 @@ public class ServerUtils {
 
     public static Response login() throws JsonProcessingException {
         UserDto userDto = UserBuilder.getExistentUserForRequest();
+        SessionFilter sessionFilter = new SessionFilter();
         return RestAssured.given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(BaseConverter.convertClassToJsonString(userDto))
+                .filter(sessionFilter)
                 .when()
                 .post(Constants.Endpoints.LOGIN)
                 .then()

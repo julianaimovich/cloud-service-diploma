@@ -5,6 +5,7 @@ import io.restassured.RestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -40,6 +41,11 @@ public class AuthorizationIntegrationTests extends BaseIntegrationTest {
         log.info("Logger initialized for Rest Assured");
         // Устанавливаем глобальные фильтры логирования
         RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
+    }
+
+    @BeforeEach
+    public void resetCookies() {
+        ServerUtils.resetCookies();
     }
 
     @Test
@@ -79,7 +85,7 @@ public class AuthorizationIntegrationTests extends BaseIntegrationTest {
     @DisplayName("Successful logout with a verified user's token")
     public void successfulLogoutWithVerifiedUsersTokenTest() throws JsonProcessingException {
         Response login = ServerUtils.login();
-        String sessionId = login.getCookie(UserSessionValues.JSESSIONID);
+        String sessionId = login.getDetailedCookie(UserSessionValues.JSESSIONID).getValue();
         String authToken = login.jsonPath().getString(UserSessionValues.AUTH_TOKEN);
 
         RestAssured.given()
