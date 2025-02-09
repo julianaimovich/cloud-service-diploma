@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ru.netology.cloudservice.config.Constants;
+import ru.netology.cloudservice.config.Constants.CommonConstants;
 import ru.netology.cloudservice.dto.UserDto;
 
 import java.util.List;
@@ -38,8 +39,10 @@ public class AuthService {
             SecurityContext sc = SecurityContextHolder.getContext();
             sc.setAuthentication(auth);
             HttpSession session = request.getSession(true);
-            session.setAttribute(Constants.CommonConstants.SPRING_SECURITY_CONTEXT, sc);
-            return new UserDto(UUID.randomUUID().toString());
+            String authToken = UUID.randomUUID().toString();
+            session.setAttribute(CommonConstants.SPRING_SECURITY_CONTEXT, sc);
+            session.setAttribute(CommonConstants.AUTH_TOKEN, authToken);
+            return new UserDto(authToken);
         } catch (AuthenticationException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, Constants.ErrorMessages.BAD_CREDENTIALS);
         }
