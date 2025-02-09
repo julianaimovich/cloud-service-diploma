@@ -1,0 +1,23 @@
+# Ignore Gradle build files
+.gradle/
+build/
+!build/libs/*.jar  # Allow only compiled JARs
+
+# Ignore user-specific settings
+.idea/
+*.iml
+.vscode/
+*.log
+
+# Ignore OS-generated files
+.DS_Store
+Thumbs.db
+
+# Ignore Docker-related files
+docker-compose.override.yml
+.env
+
+# Ignore dependency caches
+**/node_modules
+**/.mvn
+**/.cache

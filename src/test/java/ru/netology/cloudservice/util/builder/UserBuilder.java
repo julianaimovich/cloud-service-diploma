@@ -24,6 +24,13 @@ public class UserBuilder {
                 .build();
     }
 
+    public static UserDto getExistentUserForRequest() {
+        return UserDto.builder()
+                .login("admin")
+                .password("adminpasswd")
+                .build();
+    }
+
     public static UserDto getRandomAuthTokenForResponse() {
         return UserDto.builder()
                 .authToken(UUID.randomUUID().toString())

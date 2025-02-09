@@ -1,4 +1,4 @@
-package ru.netology.cloudservice.service;
+package ru.netology.cloudservice.unit.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +13,7 @@ import ru.netology.cloudservice.model.AuthoritiesEntity;
 import ru.netology.cloudservice.model.UsersEntity;
 import ru.netology.cloudservice.repository.AuthoritiesRepository;
 import ru.netology.cloudservice.repository.UsersRepository;
+import ru.netology.cloudservice.service.CustomUserDetailsService;
 import ru.netology.cloudservice.util.builder.AuthoritiesBuilder;
 import ru.netology.cloudservice.util.builder.UserBuilder;
 
