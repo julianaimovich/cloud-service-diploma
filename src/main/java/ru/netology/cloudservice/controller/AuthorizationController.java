@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import ru.netology.cloudservice.config.Constants.Endpoints;
 import ru.netology.cloudservice.dto.UserDto;
 import ru.netology.cloudservice.service.AuthService;
@@ -19,8 +20,12 @@ public class AuthorizationController {
     }
 
     @PostMapping(Endpoints.LOGIN)
-    public ResponseEntity<UserDto> login(@RequestBody UserDto userDto, HttpServletRequest request) {
-        UserDto user = authService.authenticate(userDto, request);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<?> login(@RequestBody UserDto userDto, HttpServletRequest request) {
+        try {
+            UserDto user = authService.authenticate(userDto, request);
+            return ResponseEntity.ok(user);
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
