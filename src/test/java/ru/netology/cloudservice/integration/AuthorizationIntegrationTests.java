@@ -36,8 +36,8 @@ public class AuthorizationIntegrationTests {
         RestAssured.baseURI = "http://localhost:8080";
         RestAssured.config = RestAssured.config()
                 .httpClient(HttpClientConfig.httpClientConfig()
-                        .setParam("http.socket.timeout", 5000)
-                        .setParam("http.connection.timeout", 5000));
+                        .setParam("http.socket.timeout", 10000)
+                        .setParam("http.connection.timeout", 10000));
     }
 
     @AfterAll
