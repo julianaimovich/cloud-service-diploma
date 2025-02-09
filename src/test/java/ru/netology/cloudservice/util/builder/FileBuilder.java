@@ -59,6 +59,15 @@ public class FileBuilder {
                 .build();
     }
 
+    public static FileDto getTxtFileForRequest() throws URISyntaxException {
+        File file = ResourceLoader.getFileFromResources(FilesParamValues.FILE_TXT_PATH);
+        return FileDto.builder()
+                .filename(file.getName())
+                .file(file)
+                .contentType(MediaType.TEXT_PLAIN_VALUE)
+                .build();
+    }
+
     public static MockMultipartFile fileToMultipartFile(File file, String contentType) throws IOException {
         try (FileInputStream fileInputStream = new FileInputStream(file)) {
             return new MockMultipartFile(

@@ -20,7 +20,6 @@ import ru.netology.cloudservice.util.builder.FileBuilder;
 import ru.netology.cloudservice.util.builder.UserBuilder;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.UUID;
 
@@ -143,8 +142,8 @@ public class AuthorizationIntegrationTests {
     public void userCanNotUploadFileWithoutAuthorizationTest() throws URISyntaxException {
         FileDto fileForRequest = FileBuilder.getJpgFileForRequest();
         RestAssured.given()
-                .multiPart(FilesParamValues.FILE_PARAM, fileForRequest.getFile())
                 .param(FilesParamValues.FILENAME_PARAM, fileForRequest.getFilename())
+                .multiPart(FilesParamValues.FILE_PARAM, fileForRequest.getFile())
                 .when()
                 .post(Endpoints.FILE)
                 .then()
