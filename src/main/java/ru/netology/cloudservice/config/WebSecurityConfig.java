@@ -61,7 +61,7 @@ public class WebSecurityConfig {
 
     public AccessDeniedHandler customAccessDeniedHandler() {
         return (request, response, accessDeniedException) -> {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.getWriter().write("Access Denied: You don't have the required role!");
         };
     }
@@ -86,8 +86,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/actuator/health").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(authEntryPoint) // 401 Handler
-                        .accessDeniedHandler(customAccessDeniedHandler())) // 403 Handler
+                        .authenticationEntryPoint(authEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler()))
                 .logout(logout -> logout
                         .logoutUrl(Endpoints.LOGOUT)
                         .logoutSuccessHandler((request, response, authentication) -> {

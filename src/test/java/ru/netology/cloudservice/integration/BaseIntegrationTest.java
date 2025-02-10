@@ -1,4 +1,4 @@
-package ru.netology.cloudservice.util.builder;
+package ru.netology.cloudservice.integration;
 
 import io.restassured.RestAssured;
 import io.restassured.config.HttpClientConfig;
