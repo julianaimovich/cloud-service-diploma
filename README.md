@@ -50,44 +50,78 @@ REST-сервис, позволяющий хранить файлы и рабо�
 
 Настройки приложения находятся в файлах:
 
-```application.yml``` – основной конфигурационный файл, который содержит в себе основные настройки и профили Spring, которые могут быть включены в зависимости от необходимого функционала. По умолчанию выбран профиль ```prod```, профиль ```test``` включается с помощью аннотации ```@ActiveProfiles({"test"})``` в классах с unit-тестами. Пример конфигурации ```application.yml```:
+
+```application.yml``` – основной конфигурационный файл, который содержит в себе основные настройки. Также есть два файла настроек, которые применяются в зависимости от того, что необходимо сделать. 
+Созданы два профиля – ```prod``` и ```test```. Дефолтным профилем является ```prod```, профиль ```test``` включается с помощью аннотации ```@ActiveProfiles({"test"})``` в классах с unit-тестами.  
+Пример конфигурации ```application.yml```:
 
 ```
-spring.application.name: cloud-service # Название приложения
-
-spring.profiles.include: prod, test # Профили Spring
-spring.profiles.active: prod # Активный профиль по умолчанию  
-spring.jackson.serialization.fail-on-empty-beans: false # Для предотвращения ошибки при сериализации некоторых объектов библиотекой Jackson
+spring:
+  application:
+    name: cloud-service           # Название приложения
+  profiles:
+    active: prod                  # Дефолтный активный профиль
+  jackson:
+    serialization:
+      fail-on-empty-beans: false  # Для предотвращения ошибки при сериализации Jackson
+management:                       # Настройки Spring Boot Actuator для контроля статуса сервера 
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+      probes.enabled: true
+  health:
+    db:
+      enabled: true
 ```
 
 ```application-prod.yml``` – конфигурационный файл, содержащий настройки профиля ```prod```, необходимого для работы сервера с БД MySQL. Пример конфигурации ```application-prod.yml```:
 
 ```
-spring.config.activate.on-profile: prod # Название профиля 
-  
-spring.jpa.database-platform: org.hibernate.dialect.MySQLDialect  
-spring.datasource.url: jdbc:mysql://localhost:3306/netology  
-spring.datasource.driver-class-name: com.mysql.cj.jdbc.Driver  
-spring.datasource.username: root  
-spring.datasource.password: root  
-spring.jpa.hibernate.ddl-auto: update
+spring:  
+  jpa:  
+    show-sql: true  
+    database-platform: org.hibernate.dialect.MySQL8Dialect  
+    hibernate:  
+      ddl-auto: create  
+    defer-datasource-initialization: true  
+  datasource:  
+    url: jdbc:mysql://host.docker.internal:3306/netology?useSSL=false&serverTimezone=UTC  
+    driver-class-name: com.mysql.cj.jdbc.Driver  
+    username: root  
+    password: root  
+  sql:  
+    init:  
+      mode: always
 ```
 
-```application-test.yml``` – конфигурационный файл, содержащий настройки профиля ```test```, необходимого для прохождения тестов с Mockito. Содержит настройки для in-memory H2 базы данных, которая позволяет мокать обращения к БД в репозиториях. Пример конфигурации ```application-test.yml```:
+```application-test.yml``` – конфигурационный файл, содержащий настройки профиля ```test```, необходимого для прохождения тестов с Mockito. Содержит настройки для in-memory H2 базы данных, которая позволяет мокать обращения к БД в репозиториях.   
+Пример конфигурации ```application-test.yml```:
 
 ```
-spring.config.activate.on-profile: test # Название профиля
-  
-spring.jpa.database-platform: org.hibernate.dialect.H2Dialect  
-spring.datasource.driver-class-name: org.h2.Driver  
-spring.datasource.url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1  
-spring.datasource.username: sa  
-spring.datasource.password: sa  
-spring.jpa.defer-datasource-initialization: true  
-spring.h2.console.enabled: true  
-spring.h2.console.path: /h2-console  
-spring.h2.console.settings.trace: false  
-spring.h2.console.settings.web-allow-others: false
+spring:  
+  sql:  
+    init:  
+      mode: never  
+  jpa:  
+    database-platform: org.hibernate.dialect.H2Dialect  
+    show-sql: true  
+    properties:  
+      hibernate.hbm2ddl.import_files: import.sql  
+    hibernate:  
+      ddl-auto: create  
+  datasource:  
+    driver-class-name: org.h2.Driver  
+    url: jdbc:h2:mem:netology;DB_CLOSE_DELAY=-1  
+    username: sa  
+    password:  
+  h2:  
+    console:  
+      enabled: true  
+      path: /h2-console
 ```
 ---
 
