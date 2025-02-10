@@ -12,11 +12,9 @@ import java.util.Optional;
 
 @Repository
 public interface FilesRepository extends JpaRepository<FilesEntity, Long>  {
-    @Transactional
     @Query(nativeQuery = true, value = "SELECT * FROM files f LIMIT :limit")
     List<FilesEntity> findAllByLimit(@Param("limit") Integer limit);
 
-    @Transactional
     Optional<FilesEntity> findByFilename(String filename);
 
     @Transactional

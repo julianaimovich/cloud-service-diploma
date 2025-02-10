@@ -14,7 +14,6 @@ import ru.netology.cloudservice.dto.UserDto;
 import ru.netology.cloudservice.util.BaseConverter;
 import ru.netology.cloudservice.util.ServerUtils;
 import ru.netology.cloudservice.util.TestConstants.UserSessionValues;
-import ru.netology.cloudservice.util.builder.BaseIntegrationTest;
 import ru.netology.cloudservice.util.builder.FileBuilder;
 import ru.netology.cloudservice.util.builder.UserBuilder;
 
@@ -41,7 +40,7 @@ public class AuthorizationIntegrationTests extends BaseIntegrationTest {
         String body = BaseConverter.convertClassToJsonString(userDto);
         RestAssured.given()
                 .header(CACHE_CONTROL_HEADER, CACHE_CONTROL_VALUE)
-                /*.contentType(MediaType.APPLICATION_JSON_VALUE)*/
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(body)
                 .when()
                 .post(Endpoints.LOGIN)
@@ -57,7 +56,7 @@ public class AuthorizationIntegrationTests extends BaseIntegrationTest {
         String body = BaseConverter.convertClassToJsonString(userDto);
         RestAssured.given()
                 .header(CACHE_CONTROL_HEADER, CACHE_CONTROL_VALUE)
-                /*.contentType(MediaType.APPLICATION_JSON_VALUE)*/
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(body)
                 .when()
                 .post(Endpoints.LOGIN)
@@ -87,7 +86,7 @@ public class AuthorizationIntegrationTests extends BaseIntegrationTest {
         UserDto userDto = new UserDto(UUID.randomUUID().toString());
         RestAssured.given()
                 .header(CACHE_CONTROL_HEADER, CACHE_CONTROL_VALUE)
-                /*.contentType(MediaType.APPLICATION_JSON_VALUE)*/
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(userDto)
                 .when()
                 .post(Endpoints.LOGOUT)

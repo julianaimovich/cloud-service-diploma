@@ -15,7 +15,6 @@ import ru.netology.cloudservice.model.FilesEntity;
 import ru.netology.cloudservice.repository.FilesRepository;
 import ru.netology.cloudservice.util.ServerUtils;
 import ru.netology.cloudservice.util.TestConstants.FilesParamValues;
-import ru.netology.cloudservice.util.builder.BaseIntegrationTest;
 import ru.netology.cloudservice.util.builder.FileBuilder;
 
 import java.io.IOException;
@@ -205,7 +204,7 @@ public class CloudServiceIntegrationTests extends BaseIntegrationTest {
                 .cookie(JSESSIONID, sessionId)
                 .header(AUTH_TOKEN, authToken)
                 .header(CACHE_CONTROL_HEADER, CACHE_CONTROL_VALUE)
-                /*.contentType(MediaType.APPLICATION_JSON_VALUE)*/
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .queryParam(FILENAME_PARAM, FileBuilder.faker.file().fileName())
                 .when()
                 .delete(Endpoints.FILE)
@@ -241,7 +240,7 @@ public class CloudServiceIntegrationTests extends BaseIntegrationTest {
                 .cookie(JSESSIONID, sessionId)
                 .header(AUTH_TOKEN, authToken)
                 .header(CACHE_CONTROL_HEADER, CACHE_CONTROL_VALUE)
-                /*.contentType(MediaType.APPLICATION_JSON_VALUE)*/
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .queryParam(FilesParamValues.LIMIT_PARAM, limit)
                 .when()
                 .get(Endpoints.GET_ALL_FILES)
