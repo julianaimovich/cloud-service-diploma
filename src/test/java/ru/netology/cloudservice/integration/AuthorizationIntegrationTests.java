@@ -8,7 +8,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import ru.netology.cloudservice.config.Constants.Endpoints;
 import ru.netology.cloudservice.dto.FileDto;
 import ru.netology.cloudservice.dto.UserDto;
 import ru.netology.cloudservice.util.BaseConverter;
@@ -16,6 +15,7 @@ import ru.netology.cloudservice.util.ServerUtils;
 import ru.netology.cloudservice.util.TestConstants.UserSessionValues;
 import ru.netology.cloudservice.util.builder.FileBuilder;
 import ru.netology.cloudservice.util.builder.UserBuilder;
+import ru.netology.cloudservice.utils.Constants.Endpoints;
 
 import java.net.URISyntaxException;
 import java.util.UUID;

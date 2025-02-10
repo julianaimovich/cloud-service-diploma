@@ -12,6 +12,7 @@ import java.io.File;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FileDto {
+
     private String filename;
     private Integer size;
     @JsonIgnore

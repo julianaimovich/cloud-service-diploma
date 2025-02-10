@@ -7,11 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import ru.netology.cloudservice.config.Constants;
-import ru.netology.cloudservice.config.Constants.CommonConstants;
-import ru.netology.cloudservice.config.Constants.Endpoints;
 import ru.netology.cloudservice.dto.UserDto;
 import ru.netology.cloudservice.service.AuthService;
+import ru.netology.cloudservice.utils.Constants;
+import ru.netology.cloudservice.utils.Constants.CommonConstants;
+import ru.netology.cloudservice.utils.Constants.Endpoints;
 
 @RestController
 public class AuthorizationController {

@@ -9,13 +9,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import ru.netology.cloudservice.config.Constants.Endpoints;
 import ru.netology.cloudservice.dto.FileDto;
 import ru.netology.cloudservice.model.FilesEntity;
 import ru.netology.cloudservice.repository.FilesRepository;
 import ru.netology.cloudservice.util.ServerUtils;
 import ru.netology.cloudservice.util.TestConstants.FilesParamValues;
 import ru.netology.cloudservice.util.builder.FileBuilder;
+import ru.netology.cloudservice.utils.Constants.Endpoints;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

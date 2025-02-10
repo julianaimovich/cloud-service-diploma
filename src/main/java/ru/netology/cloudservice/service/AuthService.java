@@ -12,9 +12,9 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import ru.netology.cloudservice.config.Constants;
-import ru.netology.cloudservice.config.Constants.CommonConstants;
 import ru.netology.cloudservice.dto.UserDto;
+import ru.netology.cloudservice.utils.Constants;
+import ru.netology.cloudservice.utils.Constants.CommonConstants;
 
 import java.util.List;
 import java.util.UUID;

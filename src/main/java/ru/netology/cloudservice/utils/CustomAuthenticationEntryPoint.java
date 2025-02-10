@@ -1,4 +1,4 @@
-package ru.netology.cloudservice.config;
+package ru.netology.cloudservice.utils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

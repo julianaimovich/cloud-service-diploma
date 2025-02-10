@@ -12,13 +12,13 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import ru.netology.cloudservice.config.Constants.Endpoints;
 import ru.netology.cloudservice.controller.FilesController;
 import ru.netology.cloudservice.dto.FileDto;
 import ru.netology.cloudservice.model.FilesEntity;
 import ru.netology.cloudservice.service.FilesService;
 import ru.netology.cloudservice.util.TestConstants.FilesParamValues;
 import ru.netology.cloudservice.util.builder.FileBuilder;
+import ru.netology.cloudservice.utils.Constants.Endpoints;
 
 import java.util.List;
 

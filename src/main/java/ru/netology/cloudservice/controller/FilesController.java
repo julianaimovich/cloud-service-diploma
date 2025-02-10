@@ -9,10 +9,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.netology.cloudservice.config.Constants.Endpoints;
-import ru.netology.cloudservice.config.Constants.ErrorMessages;
 import ru.netology.cloudservice.dto.FileDto;
 import ru.netology.cloudservice.service.FilesService;
+import ru.netology.cloudservice.utils.Constants.Endpoints;
+import ru.netology.cloudservice.utils.Constants.ErrorMessages;
 
 import java.io.IOException;
 import java.util.List;

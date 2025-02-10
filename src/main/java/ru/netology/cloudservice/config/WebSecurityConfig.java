@@ -17,7 +17,8 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import ru.netology.cloudservice.config.Constants.Endpoints;
+import ru.netology.cloudservice.utils.Constants.Endpoints;
+import ru.netology.cloudservice.utils.CustomAuthenticationEntryPoint;
 
 import javax.sql.DataSource;
 

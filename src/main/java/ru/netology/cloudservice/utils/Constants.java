@@ -1,4 +1,4 @@
-package ru.netology.cloudservice.config;
+package ru.netology.cloudservice.utils;
 
 public interface Constants {
 
