@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
-@ActiveProfiles({"test"})
+@ActiveProfiles("test")
 public class FilesRepositoryUnitTests {
 
     @Autowired

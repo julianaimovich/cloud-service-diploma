@@ -3,7 +3,6 @@ package ru.netology.cloudservice.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.RestAssured;
 import io.restassured.filter.cookie.CookieFilter;
-import io.restassured.filter.session.SessionFilter;
 import io.restassured.response.Response;
 import org.springframework.http.MediaType;
 import ru.netology.cloudservice.config.Constants;

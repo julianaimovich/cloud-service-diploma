@@ -57,7 +57,7 @@ public class FilesControllerUnitTests {
         ResultActions response = mockMvc.perform(
                 multipart(Endpoints.FILE).file(fileContent)
                 .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
-                .param(FilesParamValues.FILENAME_PARAM, fileForRequest.getFilename()));
+                .queryParam(FilesParamValues.FILENAME_PARAM, fileForRequest.getFilename()));
         // Then
         response.andExpect(status().isOk());
     }
@@ -73,7 +73,7 @@ public class FilesControllerUnitTests {
                 .thenReturn(fileForRequest.getContentType());
         // When
         ResultActions response = mockMvc.perform(get(Endpoints.FILE)
-                .param(FilesParamValues.FILENAME_PARAM, fileForRequest.getFilename())
+                .queryParam(FilesParamValues.FILENAME_PARAM, fileForRequest.getFilename())
                 .contentType(fileForRequest.getContentType()));
         // Then
         response.andExpect(status().isOk())
@@ -93,7 +93,7 @@ public class FilesControllerUnitTests {
         // When
         ResultActions response = mockMvc.perform(put(Endpoints.FILE)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .param(FilesParamValues.FILENAME_PARAM, fileForRequest.getFilename())
+                .queryParam(FilesParamValues.FILENAME_PARAM, fileForRequest.getFilename())
                 .content(objectMapper.writeValueAsString(fileForResponse)));
         // Then
         response.andExpect(status().isOk());
@@ -108,7 +108,7 @@ public class FilesControllerUnitTests {
         // When
         ResultActions response = mockMvc.perform(delete(Endpoints.FILE)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .param(FilesParamValues.FILENAME_PARAM, fileForRequest.getFilename()));
+                .queryParam(FilesParamValues.FILENAME_PARAM, fileForRequest.getFilename()));
         // Then
         response.andExpect(status().isOk());
     }
@@ -124,7 +124,7 @@ public class FilesControllerUnitTests {
         // When
         ResultActions response = mockMvc.perform(get(Endpoints.GET_ALL_FILES)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .param(FilesParamValues.LIMIT_PARAM, limit.toString()));
+                .queryParam(FilesParamValues.LIMIT_PARAM, limit.toString()));
         // Then
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(limit)));
