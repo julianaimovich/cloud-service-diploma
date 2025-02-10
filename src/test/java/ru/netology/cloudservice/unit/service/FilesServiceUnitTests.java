@@ -14,7 +14,6 @@ import ru.netology.cloudservice.model.FilesEntity;
 import ru.netology.cloudservice.repository.FilesRepository;
 import ru.netology.cloudservice.service.FilesService;
 import ru.netology.cloudservice.util.MockUtil;
-import ru.netology.cloudservice.util.TestConstants.FilesParamValues;
 import ru.netology.cloudservice.util.builder.FileBuilder;
 
 import java.io.IOException;
@@ -29,6 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static ru.netology.cloudservice.util.TestConstants.FilesParamValues.FILE_DEFAULT_ID;
 
 @ExtendWith(MockitoExtension.class)
 public class FilesServiceUnitTests {
@@ -43,7 +43,7 @@ public class FilesServiceUnitTests {
     public void saveFileWithJpgExtensionTest() throws IOException, URISyntaxException {
         // Given
         FilesEntity expectedFile = FileBuilder.getJpgFileEntity();
-        expectedFile.setId(FilesParamValues.FILE_DEFAULT_ID);
+        expectedFile.setId(FILE_DEFAULT_ID);
         MockMultipartFile fileContent = new MockMultipartFile("parrot",
                 expectedFile.getFilename(), MediaType.IMAGE_JPEG_VALUE, expectedFile.getData());
         when(filesRepository.save(any(FilesEntity.class))).thenAnswer
@@ -61,7 +61,7 @@ public class FilesServiceUnitTests {
     public void saveFileWithTxtExtensionTest() throws IOException, URISyntaxException {
         // Given
         FilesEntity expectedFile = FileBuilder.getTxtFileEntity();
-        expectedFile.setId(FilesParamValues.FILE_DEFAULT_ID);
+        expectedFile.setId(FILE_DEFAULT_ID);
         MockMultipartFile fileContent = new MockMultipartFile("story",
                 expectedFile.getFilename(), MediaType.TEXT_PLAIN_VALUE, expectedFile.getData());
         when(filesRepository.save(any(FilesEntity.class))).thenAnswer
@@ -79,7 +79,7 @@ public class FilesServiceUnitTests {
     public void getFileContentTest() throws IOException, URISyntaxException {
         // Given
         FilesEntity file = FileBuilder.getTxtFileEntity();
-        file.setId(FilesParamValues.FILE_DEFAULT_ID);
+        file.setId(FILE_DEFAULT_ID);
         when(filesRepository.findByFilename(file.getFilename())).thenReturn(Optional.of(file));
         // When
         byte[] result = filesService.getFile(file.getFilename());
@@ -95,7 +95,7 @@ public class FilesServiceUnitTests {
     public void getFileContentTypeTest() throws IOException, URISyntaxException {
         // Given
         FilesEntity file = FileBuilder.getTxtFileEntity();
-        file.setId(FilesParamValues.FILE_DEFAULT_ID);
+        file.setId(FILE_DEFAULT_ID);
         when(filesRepository.findByFilename(file.getFilename())).thenReturn(Optional.of(file));
         // When
         String result = filesService.getFileContentType(file.getFilename());
@@ -132,7 +132,7 @@ public class FilesServiceUnitTests {
         FilesEntity file = FileBuilder.getTxtFileEntity();
         String previousName = file.getFilename();
         String newName = "test.txt";
-        file.setId(FilesParamValues.FILE_DEFAULT_ID);
+        file.setId(FILE_DEFAULT_ID);
         when(filesRepository.findByFilename(previousName)).thenReturn(Optional.of(file));
         file.setFilename(newName);
         when(filesRepository.save(file)).thenReturn(file);
@@ -151,7 +151,7 @@ public class FilesServiceUnitTests {
     public void deleteFileTest() throws IOException, URISyntaxException {
         // Given
         FilesEntity file = FileBuilder.getTxtFileEntity();
-        file.setId(FilesParamValues.FILE_DEFAULT_ID);
+        file.setId(FILE_DEFAULT_ID);
         when(filesRepository.findByFilename(file.getFilename())).thenReturn(Optional.of(file));
         willDoNothing().given(filesRepository).deleteById(file.getId());
         // When

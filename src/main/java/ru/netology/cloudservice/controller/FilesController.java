@@ -28,7 +28,7 @@ public class FilesController {
 
     @PostMapping(path = Endpoints.FILE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<HttpStatus> uploadFile(@RequestParam String filename,
-                                              @RequestParam MultipartFile file) throws IOException {
+                                                 @RequestParam MultipartFile file) throws IOException {
         if (StringUtils.isBlank(filename) || file.isEmpty()) {
             throw new BadRequestException(ErrorMessages.ERROR_INPUT_DATA);
         }
@@ -69,8 +69,10 @@ public class FilesController {
     }
 
     @GetMapping(Endpoints.GET_ALL_FILES)
-    public List<FileDto> getAllFilesByLimit(@RequestParam Integer limit) throws BadRequestException {
-        if (limit == null || limit <= 0) {
+    public List<FileDto> getAllFilesByLimit(@RequestParam(required = false) Integer limit) throws BadRequestException {
+        if (limit == null) {
+            return filesService.getAllFiles();
+        } else if (limit <= 0) {
             throw new BadRequestException(ErrorMessages.ERROR_GETTING_FILE_LIST);
         }
         return filesService.getAllFilesByLimit(limit);

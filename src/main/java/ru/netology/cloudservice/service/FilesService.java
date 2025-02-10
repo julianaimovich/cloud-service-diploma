@@ -69,9 +69,21 @@ public class FilesService {
     public List<FileDto> getAllFilesByLimit(Integer limit) {
         List<FilesEntity> fileEntitiesList = filesRepository.findAllByLimit(limit);
         if (!fileEntitiesList.isEmpty()) {
-            return fileEntitiesList.stream().map(filesEntity ->
-                    new FileDto(filesEntity.getFilename(), filesEntity.getSize())).toList();
+            return listOfFileEntitiesToDto(fileEntitiesList);
         }
         return Collections.emptyList();
+    }
+
+    public List<FileDto> getAllFiles() {
+        List<FilesEntity> fileEntitiesList = filesRepository.findAll();
+        if (!fileEntitiesList.isEmpty()) {
+            return listOfFileEntitiesToDto(fileEntitiesList);
+        }
+        return Collections.emptyList();
+    }
+
+    private List<FileDto> listOfFileEntitiesToDto(List<FilesEntity> fileEntitiesList) {
+        return fileEntitiesList.stream().map(filesEntity ->
+                new FileDto(filesEntity.getFilename(), filesEntity.getSize())).toList();
     }
 }

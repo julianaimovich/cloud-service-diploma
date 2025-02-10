@@ -3,6 +3,7 @@ package ru.netology.cloudservice.unit.repo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.Rollback;
@@ -11,8 +12,6 @@ import ru.netology.cloudservice.model.AuthoritiesEntity;
 import ru.netology.cloudservice.model.UsersEntity;
 import ru.netology.cloudservice.repository.AuthoritiesRepository;
 import ru.netology.cloudservice.repository.UsersRepository;
-import ru.netology.cloudservice.util.TestConstants.ExceptionMessages;
-import ru.netology.cloudservice.util.TestConstants.UserSessionValues;
 import ru.netology.cloudservice.util.builder.AuthoritiesBuilder;
 import ru.netology.cloudservice.util.builder.UserBuilder;
 
@@ -23,9 +22,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static ru.netology.cloudservice.util.TestConstants.ExceptionMessages.NOT_NULL_PROPERTY_NULL_REFERENCE;
+import static ru.netology.cloudservice.util.TestConstants.UserSessionValues.ROLE_ADMIN_AUTHORITY;
+import static ru.netology.cloudservice.util.TestConstants.UserSessionValues.ROLE_USER_AUTHORITY;
 
 @DataJpaTest
 @ActiveProfiles({"test"})
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class AuthoritiesRepositoryUnitTests {
 
     @Autowired
@@ -52,12 +55,12 @@ public class AuthoritiesRepositoryUnitTests {
     public void unableToSaveAuthorityWithoutLoginTest() {
         // Arrange
         AuthoritiesEntity authority = AuthoritiesEntity.builder()
-                .authority(UserSessionValues.ROLE_ADMIN_AUTHORITY).build();
+                .authority(ROLE_ADMIN_AUTHORITY).build();
         // Act
         DataIntegrityViolationException exception = assertThrows
                 (DataIntegrityViolationException.class, () -> authoritiesRepository.save(authority));
         // Assert
-        assertTrue(exception.getMessage().contains(ExceptionMessages.NOT_NULL_PROPERTY_NULL_REFERENCE));
+        assertTrue(exception.getMessage().contains(NOT_NULL_PROPERTY_NULL_REFERENCE));
     }
 
     @Test
@@ -70,7 +73,7 @@ public class AuthoritiesRepositoryUnitTests {
         DataIntegrityViolationException exception = assertThrows
                 (DataIntegrityViolationException.class, () -> authoritiesRepository.save(authority));
         // Assert
-        assertTrue(exception.getMessage().contains(ExceptionMessages.NOT_NULL_PROPERTY_NULL_REFERENCE));
+        assertTrue(exception.getMessage().contains(NOT_NULL_PROPERTY_NULL_REFERENCE));
     }
 
     @Test
@@ -120,7 +123,7 @@ public class AuthoritiesRepositoryUnitTests {
         UsersEntity user = usersRepository.save(UserBuilder.getRandomUserEntity());
         AuthoritiesEntity authority = authoritiesRepository.save
                 (AuthoritiesBuilder.getAdminAuthorityForUser(user.getLogin()));
-        authority.setAuthority(UserSessionValues.ROLE_USER_AUTHORITY);
+        authority.setAuthority(ROLE_USER_AUTHORITY);
         // Act
         AuthoritiesEntity authorityUpdated =  authoritiesRepository.save(authority);
         // Assert

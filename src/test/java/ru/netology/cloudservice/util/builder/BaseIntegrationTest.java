@@ -4,8 +4,6 @@ import io.restassured.RestAssured;
 import io.restassured.config.HttpClientConfig;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.testcontainers.containers.DockerComposeContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -16,7 +14,6 @@ import java.io.File;
 
 @SpringBootTest
 @Testcontainers
-@TestInstance(Lifecycle.PER_CLASS)
 public class BaseIntegrationTest {
 
     private static DockerComposeContainer<?> environment;
