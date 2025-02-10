@@ -13,7 +13,6 @@ import ru.netology.cloudservice.dto.FileDto;
 import ru.netology.cloudservice.dto.UserDto;
 import ru.netology.cloudservice.util.BaseConverter;
 import ru.netology.cloudservice.util.ServerUtils;
-import ru.netology.cloudservice.util.TestConstants.FilesParamValues;
 import ru.netology.cloudservice.util.TestConstants.UserSessionValues;
 import ru.netology.cloudservice.util.builder.BaseIntegrationTest;
 import ru.netology.cloudservice.util.builder.FileBuilder;
@@ -23,6 +22,10 @@ import java.net.URISyntaxException;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.notNullValue;
+import static ru.netology.cloudservice.util.TestConstants.FilesParamValues.FILENAME_PARAM;
+import static ru.netology.cloudservice.util.TestConstants.FilesParamValues.FILE_PARAM;
+import static ru.netology.cloudservice.util.TestConstants.ServerParams.CACHE_CONTROL_HEADER;
+import static ru.netology.cloudservice.util.TestConstants.ServerParams.CACHE_CONTROL_VALUE;
 
 public class AuthorizationIntegrationTests extends BaseIntegrationTest {
 
@@ -37,7 +40,8 @@ public class AuthorizationIntegrationTests extends BaseIntegrationTest {
         UserDto userDto = UserBuilder.getExistentUserForRequest();
         String body = BaseConverter.convertClassToJsonString(userDto);
         RestAssured.given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(CACHE_CONTROL_HEADER, CACHE_CONTROL_VALUE)
+                /*.contentType(MediaType.APPLICATION_JSON_VALUE)*/
                 .body(body)
                 .when()
                 .post(Endpoints.LOGIN)
@@ -52,7 +56,8 @@ public class AuthorizationIntegrationTests extends BaseIntegrationTest {
         UserDto userDto = UserBuilder.getRandomUserForRequest();
         String body = BaseConverter.convertClassToJsonString(userDto);
         RestAssured.given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(CACHE_CONTROL_HEADER, CACHE_CONTROL_VALUE)
+                /*.contentType(MediaType.APPLICATION_JSON_VALUE)*/
                 .body(body)
                 .when()
                 .post(Endpoints.LOGIN)
@@ -69,6 +74,7 @@ public class AuthorizationIntegrationTests extends BaseIntegrationTest {
         RestAssured.given()
                 .cookie(UserSessionValues.JSESSIONID, sessionId)
                 .header(UserSessionValues.AUTH_TOKEN, authToken)
+                .header(CACHE_CONTROL_HEADER, CACHE_CONTROL_VALUE)
                 .when()
                 .post(Endpoints.LOGOUT)
                 .then()
@@ -80,7 +86,8 @@ public class AuthorizationIntegrationTests extends BaseIntegrationTest {
     public void failedLogoutWithNonExistentUsersTokenTest() {
         UserDto userDto = new UserDto(UUID.randomUUID().toString());
         RestAssured.given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(CACHE_CONTROL_HEADER, CACHE_CONTROL_VALUE)
+                /*.contentType(MediaType.APPLICATION_JSON_VALUE)*/
                 .body(userDto)
                 .when()
                 .post(Endpoints.LOGOUT)
@@ -92,6 +99,7 @@ public class AuthorizationIntegrationTests extends BaseIntegrationTest {
     @DisplayName("Failed logout without token")
     public void failedLogoutWithoutTokenTest() {
         RestAssured.given()
+                .header(CACHE_CONTROL_HEADER, CACHE_CONTROL_VALUE)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when()
                 .post(Endpoints.LOGOUT)
@@ -103,6 +111,7 @@ public class AuthorizationIntegrationTests extends BaseIntegrationTest {
     @DisplayName("User can't get list of files without authorization")
     public void userCanNotGetListOfFilesWithoutAuthorizationTest() {
         RestAssured.given()
+                .header(CACHE_CONTROL_HEADER, CACHE_CONTROL_VALUE)
                 .when()
                 .get(Endpoints.GET_ALL_FILES)
                 .then()
@@ -114,8 +123,9 @@ public class AuthorizationIntegrationTests extends BaseIntegrationTest {
     public void userCanNotUploadFileWithoutAuthorizationTest() throws URISyntaxException {
         FileDto fileForRequest = FileBuilder.getJpgFileForRequest();
         RestAssured.given()
-                .queryParam(FilesParamValues.FILENAME_PARAM, fileForRequest.getFilename())
-                .multiPart(FilesParamValues.FILE_PARAM, fileForRequest.getFile())
+                .header(CACHE_CONTROL_HEADER, CACHE_CONTROL_VALUE)
+                .queryParam(FILENAME_PARAM, fileForRequest.getFilename())
+                .multiPart(FILE_PARAM, fileForRequest.getFile())
                 .when()
                 .post(Endpoints.FILE)
                 .then()

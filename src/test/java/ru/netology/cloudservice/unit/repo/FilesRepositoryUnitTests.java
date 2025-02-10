@@ -10,7 +10,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import ru.netology.cloudservice.model.FilesEntity;
 import ru.netology.cloudservice.repository.FilesRepository;
-import ru.netology.cloudservice.util.TestConstants;
 import ru.netology.cloudservice.util.builder.FileBuilder;
 
 import java.io.IOException;
@@ -23,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static ru.netology.cloudservice.util.TestConstants.ExceptionMessages.NOT_NULL_PROPERTY_NULL_REFERENCE;
 
 @DataJpaTest
 @ActiveProfiles({"test"})
@@ -64,7 +64,7 @@ public class FilesRepositoryUnitTests {
         DataIntegrityViolationException exception = assertThrows
                 (DataIntegrityViolationException.class, () -> filesRepository.save(file));
         // Assert
-        assertTrue(exception.getMessage().contains(TestConstants.ExceptionMessages.NOT_NULL_PROPERTY_NULL_REFERENCE));
+        assertTrue(exception.getMessage().contains(NOT_NULL_PROPERTY_NULL_REFERENCE));
     }
 
     @Test
@@ -77,7 +77,7 @@ public class FilesRepositoryUnitTests {
         DataIntegrityViolationException exception = assertThrows
                 (DataIntegrityViolationException.class, () -> filesRepository.save(file));
         // Assert
-        assertTrue(exception.getMessage().contains(TestConstants.ExceptionMessages.NOT_NULL_PROPERTY_NULL_REFERENCE));
+        assertTrue(exception.getMessage().contains(NOT_NULL_PROPERTY_NULL_REFERENCE));
     }
 
     @Test

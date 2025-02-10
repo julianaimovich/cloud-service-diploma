@@ -6,6 +6,8 @@ public interface TestConstants {
         String SERVER_URI = "http://localhost:8080";
         String DOCKER_COMPOSE_FILE = "docker-compose.yml";
         String ACTUATOR_HEALTH_ENDPOINT = "/actuator/health";
+        String CACHE_CONTROL_HEADER = "Cache-Control";
+        String CACHE_CONTROL_VALUE = "no-cache";
     }
 
     interface UserSessionValues {
