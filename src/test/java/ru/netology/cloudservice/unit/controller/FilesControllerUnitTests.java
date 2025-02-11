@@ -122,9 +122,9 @@ public class FilesControllerUnitTests {
     @DisplayName("Get all files by limit")
     public void getAllFilesByLimitTest() throws Exception {
         // Given
-        List<FileDto> filesList = FileBuilder.getFileDtoList();
+        List<FilesEntity> filesList = FileBuilder.getFilesEntityList();
         Integer limit = FileBuilder.faker.number().numberBetween(1, filesList.size() - 1);
-        List<FileDto> expectedFilesList = filesList.subList(0, limit);
+        List<FilesEntity> expectedFilesList = filesList.subList(0, limit);
         when(filesService.getAllFilesByLimit(limit)).thenReturn(expectedFilesList);
         // When
         ResultActions response = mockMvc.perform(get(Endpoints.GET_ALL_FILES)

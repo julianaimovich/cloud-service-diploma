@@ -33,6 +33,7 @@ public class AuthoritiesRepositoryUnitTests {
 
     @Autowired
     private AuthoritiesRepository authoritiesRepository;
+
     @Autowired
     private UsersRepository usersRepository;
 
@@ -125,7 +126,7 @@ public class AuthoritiesRepositoryUnitTests {
                 (AuthoritiesBuilder.getAdminAuthorityForUser(user.getLogin()));
         authority.setAuthority(ROLE_USER_AUTHORITY);
         // Act
-        AuthoritiesEntity authorityUpdated =  authoritiesRepository.save(authority);
+        AuthoritiesEntity authorityUpdated = authoritiesRepository.save(authority);
         // Assert
         assertEquals(authority.getAuthority(), authorityUpdated.getAuthority());
     }

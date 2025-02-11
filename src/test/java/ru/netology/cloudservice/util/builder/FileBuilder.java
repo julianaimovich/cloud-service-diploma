@@ -78,15 +78,6 @@ public class FileBuilder {
         }
     }
 
-    public static List<FileDto> getFileDtoList() throws URISyntaxException {
-        List<FileDto> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            FileDto fileDto = getJpgFileForRequest();
-            list.add(new FileDto(fileDto.getFilename(), fileDto.getSize()));
-        }
-        return list;
-    }
-
     public static FilesEntity fileDtoToEntity(FileDto fileDto) throws IOException {
         File fileContent = fileDto.getFile();
         MediaType contentType = MediaTypeFactory.getMediaType(fileContent.getName()).orElseThrow();

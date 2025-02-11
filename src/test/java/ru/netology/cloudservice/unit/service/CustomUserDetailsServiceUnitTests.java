@@ -30,8 +30,10 @@ public class CustomUserDetailsServiceUnitTests {
 
     @Mock
     private UsersRepository usersRepository;
+
     @Mock
     private AuthoritiesRepository authoritiesRepository;
+
     @InjectMocks
     private CustomUserDetailsService userDetailsService;
 
