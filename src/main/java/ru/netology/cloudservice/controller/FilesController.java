@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.netology.cloudservice.dto.FileDto;
+import ru.netology.cloudservice.exception.IllegalArgumentException;
 import ru.netology.cloudservice.exception.MissingFileDataException;
 import ru.netology.cloudservice.model.FilesEntity;
 import ru.netology.cloudservice.service.FilesService;
