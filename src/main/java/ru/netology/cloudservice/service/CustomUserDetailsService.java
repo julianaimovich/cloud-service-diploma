@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ru.netology.cloudservice.exception.UserNotFoundException;
 import ru.netology.cloudservice.repository.AuthoritiesRepository;
 import ru.netology.cloudservice.repository.UsersRepository;
 
@@ -24,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return usersRepository.findByLogin(username)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found: " + username));
+                        new UserNotFoundException(username));
     }
 
     public List<GrantedAuthority> getAuthorities(String username) {
@@ -32,6 +33,6 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .map(authoritiesEntity ->
                         List.of((GrantedAuthority) new SimpleGrantedAuthority(authoritiesEntity.getAuthority())))
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found: " + username));
+                        new UserNotFoundException(username));
     }
 }

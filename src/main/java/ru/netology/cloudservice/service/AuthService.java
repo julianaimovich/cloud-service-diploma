@@ -2,8 +2,8 @@ package ru.netology.cloudservice.service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -11,9 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import ru.netology.cloudservice.dto.UserDto;
-import ru.netology.cloudservice.utils.Constants;
 import ru.netology.cloudservice.utils.Constants.CommonConstants;
 
 import java.util.List;
@@ -43,8 +41,10 @@ public class AuthService {
             session.setAttribute(CommonConstants.SPRING_SECURITY_CONTEXT, sc);
             session.setAttribute(CommonConstants.AUTH_TOKEN, authToken);
             return new UserDto(authToken);
-        } catch (AuthenticationException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, Constants.ErrorMessages.BAD_CREDENTIALS);
+        } catch (BadCredentialsException ex) {
+            throw new BadCredentialsException("User with the specified credentials does not exist");
+        } catch (AuthenticationException ex) {
+            throw new BadCredentialsException("Authentication error: " + ex.getMessage());
         }
     }
 }
