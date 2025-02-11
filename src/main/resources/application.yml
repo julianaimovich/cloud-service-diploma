@@ -6,6 +6,7 @@ spring:
   jackson:
     serialization:
       fail-on-empty-beans: false
+
 management:
   endpoints:
     web:
@@ -14,17 +15,25 @@ management:
   endpoint:
     health:
       show-details: always
-      probes.enabled: true
+      probes:
+        enabled: true
   health:
     db:
       enabled: true
+
 logging:
   level:
     org:
       springframework:
-        web:
-          filter:
-            CommonsRequestLoggingFilter: DEBUG
-      hibernate:
-        SQL: DEBUG
+        web: DEBUG
+        filter:
+          CommonsRequestLoggingFilter: DEBUG
+        servlet:
+          DispatcherServlet: DEBUG
+      apache:
+        catalina:
+          filters:
+            RequestDumperFilter: DEBUG
+      #hibernate:
+        #SQL: DEBUG
   config: classpath:log4j2.xml

@@ -1,7 +1,7 @@
 package ru.netology.cloudservice.exception;
 
-public class FileNotFoundException extends RuntimeException {
-    public FileNotFoundException(String message, String filename) {
-        super(String.format(message, filename));
+public class FileNotFoundException extends Exception {
+    public FileNotFoundException(String message) {
+        super(String.format("File with name %s not found", message));
     }
 }

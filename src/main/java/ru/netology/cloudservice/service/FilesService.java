@@ -10,7 +10,6 @@ import ru.netology.cloudservice.repository.FilesRepository;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FilesService {
@@ -30,44 +29,38 @@ public class FilesService {
                     .data(file.getBytes())
                     .build();
             return filesRepository.save(fileEntity);
-        } catch (IOException ex) {
-            throw new FileProcessingException("Failed to read bytes from file: " + filename, ex);
+        } catch (FileProcessingException | IOException ex) {
+            throw new FileProcessingException(filename, ex);
         }
     }
 
     public FilesEntity editFile(String filename, String editFilename) {
-        Optional<FilesEntity> fileEntity = filesRepository.findByFilename(filename);
-        if (fileEntity.isEmpty()) {
-            throw new FileNotFoundException("File with name %s not found", filename);
-        }
-        FilesEntity fileForEdit = fileEntity.get();
-        fileForEdit.setFilename(editFilename);
-        return filesRepository.save(fileForEdit);
+        FilesEntity fileEntity = filesRepository.findByFilename(filename)
+                .orElseThrow(() ->
+                        new FileNotFoundException(filename));
+        fileEntity.setFilename(editFilename);
+        return filesRepository.save(fileEntity);
     }
 
     public void deleteFile(String filename) {
-        Optional<FilesEntity> fileEntity = filesRepository.findByFilename(filename);
-        if (fileEntity.isEmpty()) {
-            throw new FileNotFoundException("File with name %s not found", filename);
-        }
-        FilesEntity fileForDelete = fileEntity.get();
-        filesRepository.deleteById(fileForDelete.getId());
+        FilesEntity fileEntity = filesRepository.findByFilename(filename)
+                .orElseThrow(() ->
+                        new FileNotFoundException(filename));
+        filesRepository.deleteById(fileEntity.getId());
     }
 
     public byte[] getFile(String filename) {
-        Optional<FilesEntity> fileEntity = filesRepository.findByFilename(filename);
-        if (fileEntity.isEmpty()) {
-            throw new FileNotFoundException("File with name %s not found", filename);
-        }
-        return fileEntity.get().getData();
+        FilesEntity fileEntity = filesRepository.findByFilename(filename)
+                .orElseThrow(() ->
+                        new FileNotFoundException(filename));
+        return fileEntity.getData();
     }
 
     public String getFileContentType(String filename) {
-        Optional<FilesEntity> fileEntity = filesRepository.findByFilename(filename);
-        if (fileEntity.isEmpty()) {
-            throw new FileNotFoundException("File with name %s not found", filename);
-        }
-        return fileEntity.get().getContentType();
+        FilesEntity fileEntity = filesRepository.findByFilename(filename)
+                .orElseThrow(() ->
+                        new FileNotFoundException(filename));
+        return fileEntity.getContentType();
     }
 
     public List<FilesEntity> getAllFilesByLimit(Integer limit) {
