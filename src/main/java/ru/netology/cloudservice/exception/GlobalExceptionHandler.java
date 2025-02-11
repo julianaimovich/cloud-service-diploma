@@ -25,6 +25,18 @@ public class GlobalExceptionHandler {
         ErrorDto errorDto = new ErrorDto(ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDto);
     }
+
+    @ExceptionHandler(FileNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleFileNotFoundException(FileNotFoundException ex) {
+        ErrorDto errorDto = new ErrorDto(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
+    }
+
+    @ExceptionHandler(FileProcessingException.class)
+    public ResponseEntity<ErrorDto> handleFileProcessingExceptionException(FileProcessingException ex) {
+        ErrorDto errorDto = new ErrorDto(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
+    }
     
     /*@ExceptionHandler(FileUploadException.class)
     public ResponseEntity<ErrorDto> handleFileUploadException(FileUploadException e) {
