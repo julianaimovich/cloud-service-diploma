@@ -13,7 +13,7 @@ paths:
         - Authorization
       summary: Authorization method
       requestBody:
-        description: Login and password hash
+        description: User's login and password
         required: true
         content:
           application/json:
@@ -122,7 +122,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '500':
-          description: Error delet file
+          description: Error delete file
           content:
             application/json:
               schema:
@@ -144,7 +144,7 @@ paths:
           description: File name to download
       responses:
         '200':
-          description: Success deleted
+          description: Success downloaded
           content:
             multipart/form-data:
               schema:
@@ -162,7 +162,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '500':
-          description: Error upload file
+          description: Error download file
           content:
             application/json:
               schema:
@@ -181,9 +181,9 @@ paths:
           in: query
           schema:
             type: string
-          description: File name to upload
+          description: File name to edit
       requestBody:
-        description: Login and password hash
+        description: New file name
         required: true
         content:
           application/json:
@@ -194,7 +194,7 @@ paths:
                   type: string
       responses:
         '200':
-          description: Success upload
+          description: Success edited
         '400':
           description: Error input data
           content:
@@ -208,7 +208,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '500':
-          description: Error upload file
+          description: Error editing file
           content:
             application/json:
               schema:
