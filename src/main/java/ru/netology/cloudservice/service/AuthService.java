@@ -21,6 +21,7 @@ import java.util.UUID;
 public class AuthService {
 
     private final AuthenticationManager authenticationManager;
+
     private final CustomUserDetailsService userDetailsService;
 
     public AuthService(AuthenticationManager authenticationManager, CustomUserDetailsService userDetailsService) {

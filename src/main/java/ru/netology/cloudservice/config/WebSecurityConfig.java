@@ -27,6 +27,7 @@ import javax.sql.DataSource;
 public class WebSecurityConfig {
 
     private final DataSource dataSource;
+
     private final CustomAuthenticationEntryPoint authEntryPoint;
 
     public WebSecurityConfig(DataSource dataSource, CustomAuthenticationEntryPoint authEntryPoint) {

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration shutdownHook="disable">
     <Properties>
-        <!--        <property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN:-%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd'T'HH:mm:ss.SSSXXX}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(-&#45;&#45;){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>-->
-        <property name="CONSOLE_LOG_PATTERN" value="%style{%d{ISO8601}} %highlight{%-5level}[%style{%tid:%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable" /> "/>
+        <property name="CONSOLE_LOG_PATTERN" value="%style{%d{ISO8601}} %highlight{%-5level}[%style{%tid:%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable" />
         <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%tid:%tn] %-5p %c - %m%n" />
         <property name="LOG_PATH" value="./logs"/>
     </Properties>
@@ -17,7 +16,6 @@
                      filePattern="${LOG_PATH}/history/%d{yyyy-MM-dd}/trace-%d{yyyy-MM-dd_HH-mm}.log">
             <PatternLayout pattern="${FILE_LOG_PATTERN}" />
             <Policies>
-                <!-- rollover on startup, daily and when the file reaches 20 MegaBytes -->
                 <OnStartupTriggeringPolicy />
                 <SizeBasedTriggeringPolicy size="20 MB" />
                 <TimeBasedTriggeringPolicy />
@@ -29,7 +27,6 @@
                      filePattern="${LOG_PATH}/history/%d{yyyy-MM-dd}/test_trace-%d{yyyy-MM-dd_HH-mm}.log">
             <PatternLayout pattern="${FILE_LOG_PATTERN}" />
             <Policies>
-                <!-- rollover on startup, daily and when the file reaches 20 MegaBytes -->
                 <OnStartupTriggeringPolicy />
                 <SizeBasedTriggeringPolicy size="20 MB" />
                 <TimeBasedTriggeringPolicy />
@@ -38,6 +35,16 @@
     </Appenders>
 
     <Loggers>
+        <!-- Логирование входящих HTTP-запросов и ответов -->
+        <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG" additivity="false">
+            <AppenderRef ref="toConsole"/>
+            <AppenderRef ref="toTestTrace"/>
+        </logger>
+
+        <logger name="org.apache.catalina.filters.RequestDumperFilter" level="DEBUG" additivity="false">
+            <AppenderRef ref="toConsole"/>
+            <AppenderRef ref="toTestTrace"/>
+        </logger>
 
         <logger name="ru.protei" level="INFO" additivity="false">
             <AppenderRef ref="toTestTrace" />
@@ -53,7 +60,6 @@
             <AppenderRef ref="toTestTrace" />
             <AppenderRef ref="toTrace" />
         </Root>
-
     </Loggers>
 
 </Configuration>

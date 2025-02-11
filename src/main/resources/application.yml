@@ -18,3 +18,13 @@ management:
   health:
     db:
       enabled: true
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          filter:
+            CommonsRequestLoggingFilter: DEBUG
+      hibernate:
+        SQL: DEBUG
+  config: classpath:log4j2.xml
