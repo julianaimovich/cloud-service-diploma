@@ -181,7 +181,7 @@ paths:
           in: query
           schema:
             type: string
-          description: File name to upload
+          description: File name to edit
       requestBody:
         description: New file name
         required: true
