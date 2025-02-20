@@ -19,9 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static ru.netology.cloudservice.util.TestConstants.ExceptionMessages.NOT_NULL_PROPERTY_NULL_REFERENCE;
 import static ru.netology.cloudservice.util.TestConstants.UserSessionValues.ROLE_ADMIN_AUTHORITY;
 import static ru.netology.cloudservice.util.TestConstants.UserSessionValues.ROLE_USER_AUTHORITY;
@@ -33,6 +31,7 @@ public class AuthoritiesRepositoryUnitTests {
 
     @Autowired
     private AuthoritiesRepository authoritiesRepository;
+
     @Autowired
     private UsersRepository usersRepository;
 
@@ -125,7 +124,7 @@ public class AuthoritiesRepositoryUnitTests {
                 (AuthoritiesBuilder.getAdminAuthorityForUser(user.getLogin()));
         authority.setAuthority(ROLE_USER_AUTHORITY);
         // Act
-        AuthoritiesEntity authorityUpdated =  authoritiesRepository.save(authority);
+        AuthoritiesEntity authorityUpdated = authoritiesRepository.save(authority);
         // Assert
         assertEquals(authority.getAuthority(), authorityUpdated.getAuthority());
     }

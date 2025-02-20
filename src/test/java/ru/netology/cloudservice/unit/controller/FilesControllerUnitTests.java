@@ -12,13 +12,13 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import ru.netology.cloudservice.config.Constants.Endpoints;
 import ru.netology.cloudservice.controller.FilesController;
 import ru.netology.cloudservice.dto.FileDto;
 import ru.netology.cloudservice.model.FilesEntity;
 import ru.netology.cloudservice.service.FilesService;
 import ru.netology.cloudservice.util.TestConstants.FilesParamValues;
 import ru.netology.cloudservice.util.builder.FileBuilder;
+import ru.netology.cloudservice.utils.Constants.Endpoints;
 
 import java.util.List;
 
@@ -26,9 +26,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static ru.netology.cloudservice.util.TestConstants.FilesParamValues.FILENAME_PARAM;
 import static ru.netology.cloudservice.util.TestConstants.FilesParamValues.LIMIT_PARAM;
 
@@ -119,9 +117,9 @@ public class FilesControllerUnitTests {
     @DisplayName("Get all files by limit")
     public void getAllFilesByLimitTest() throws Exception {
         // Given
-        List<FileDto> filesList = FileBuilder.getFileDtoList();
+        List<FilesEntity> filesList = FileBuilder.getFilesEntityList();
         Integer limit = FileBuilder.faker.number().numberBetween(1, filesList.size() - 1);
-        List<FileDto> expectedFilesList = filesList.subList(0, limit);
+        List<FilesEntity> expectedFilesList = filesList.subList(0, limit);
         when(filesService.getAllFilesByLimit(limit)).thenReturn(expectedFilesList);
         // When
         ResultActions response = mockMvc.perform(get(Endpoints.GET_ALL_FILES)

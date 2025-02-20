@@ -3,13 +3,10 @@ package ru.netology.cloudservice.unit.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import ru.netology.cloudservice.dto.FileDto;
 import ru.netology.cloudservice.model.FilesEntity;
 import ru.netology.cloudservice.repository.FilesRepository;
 import ru.netology.cloudservice.service.FilesService;
@@ -35,6 +32,7 @@ public class FilesServiceUnitTests {
 
     @Mock
     private FilesRepository filesRepository;
+
     @InjectMocks
     private FilesService filesService;
 
@@ -117,7 +115,7 @@ public class FilesServiceUnitTests {
         List<FilesEntity> expectedFilesList = filesList.subList(0, limit);
         when(filesRepository.findAllByLimit(limit)).thenReturn(expectedFilesList);
         // When
-        List<FileDto> result = filesService.getAllFilesByLimit(limit);
+        List<FilesEntity> result = filesService.getAllFilesByLimit(limit);
         // Then
         assertNotNull(result);
         assertEquals(expectedFilesList.size(), result.size());

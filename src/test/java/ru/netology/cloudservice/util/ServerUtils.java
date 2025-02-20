@@ -5,10 +5,10 @@ import io.restassured.RestAssured;
 import io.restassured.filter.cookie.CookieFilter;
 import io.restassured.response.Response;
 import org.springframework.http.MediaType;
-import ru.netology.cloudservice.config.Constants;
 import ru.netology.cloudservice.dto.UserDto;
 import ru.netology.cloudservice.util.TestConstants.ServerParams;
 import ru.netology.cloudservice.util.builder.UserBuilder;
+import ru.netology.cloudservice.utils.Constants;
 
 public class ServerUtils {
 

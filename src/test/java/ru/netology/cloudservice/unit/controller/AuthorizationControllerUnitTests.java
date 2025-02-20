@@ -11,11 +11,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import ru.netology.cloudservice.config.Constants.Endpoints;
 import ru.netology.cloudservice.controller.AuthorizationController;
 import ru.netology.cloudservice.dto.UserDto;
 import ru.netology.cloudservice.service.AuthService;
 import ru.netology.cloudservice.util.builder.UserBuilder;
+import ru.netology.cloudservice.utils.Constants.Endpoints;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;

@@ -10,9 +10,7 @@ import ru.netology.cloudservice.model.FilesEntity;
 import ru.netology.cloudservice.util.ResourceLoader;
 import ru.netology.cloudservice.util.TestConstants.FilesParamValues;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,15 +74,6 @@ public class FileBuilder {
                     contentType,
                     fileInputStream);
         }
-    }
-
-    public static List<FileDto> getFileDtoList() throws URISyntaxException {
-        List<FileDto> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            FileDto fileDto = getJpgFileForRequest();
-            list.add(new FileDto(fileDto.getFilename(), fileDto.getSize()));
-        }
-        return list;
     }
 
     public static FilesEntity fileDtoToEntity(FileDto fileDto) throws IOException {
