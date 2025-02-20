@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ru.netology.cloudservice.dto.ErrorDto;
 
@@ -60,6 +61,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorDto> handleIllegalArgumentException(IllegalArgumentException ex) {
         ErrorDto errorDto = new ErrorDto(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
+    }
+
+    @ExceptionHandler(MultipartException.class)
+    public ResponseEntity<ErrorDto> handleMultipartException(MultipartException ex) {
+        String message;
+        Throwable rootCause = ex.getRootCause();
+        if (rootCause instanceof org.apache.tomcat.util.http.fileupload.FileUploadException) {
+            if (rootCause.getMessage().contains("no multipart boundary was found")) {
+                message = "Error: multipart boundary is missing. Check the request format";
+            } else {
+                message = "File upload error: " + rootCause.getMessage();
+            }
+        } else {
+            message = "Error processing the multipart request: " + ex.getMessage();
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDto(message));
     }
 
     @ExceptionHandler(Exception.class)

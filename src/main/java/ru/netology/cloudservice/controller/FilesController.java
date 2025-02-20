@@ -26,17 +26,19 @@ public class FilesController {
     }
 
     @PostMapping(path = Endpoints.FILE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> uploadFile(@RequestParam String filename,
-                                             @RequestParam MultipartFile file) {
-        if (StringUtils.isBlank(filename) || file.isEmpty()) {
-            throw new MissingFileDataException("File content or name is missing");
+    public ResponseEntity<String> uploadFile(@RequestParam(required = false) String filename,
+                                             @RequestParam(required = false) MultipartFile file) {
+        if (StringUtils.isBlank(filename)) {
+            throw new MissingFileDataException("File name is missing");
+        } else if (file.isEmpty()) {
+            throw new MissingFileDataException("File content is missing");
         }
         filesService.saveFile(filename, file);
         return ResponseEntity.ok("File was uploaded successfully");
     }
 
     @GetMapping(Endpoints.FILE)
-    public ResponseEntity<Resource> downloadFile(@RequestParam String filename) {
+    public ResponseEntity<Resource> downloadFile(@RequestParam(required = false) String filename) {
         if (filename == null || filename.isEmpty()) {
             throw new MissingFileDataException("File name is missing");
         }
@@ -49,7 +51,7 @@ public class FilesController {
     }
 
     @PutMapping(Endpoints.FILE)
-    public ResponseEntity<String> editFile(@RequestParam String filename,
+    public ResponseEntity<String> editFile(@RequestParam(required = false) String filename,
                                            @RequestBody FileDto editFile) {
         if (StringUtils.isBlank(filename) || editFile == null) {
             throw new MissingFileDataException("File name is missing");
