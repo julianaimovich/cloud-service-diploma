@@ -10,9 +10,7 @@ import ru.netology.cloudservice.model.FilesEntity;
 import ru.netology.cloudservice.util.ResourceLoader;
 import ru.netology.cloudservice.util.TestConstants.FilesParamValues;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;

@@ -53,7 +53,7 @@ public class FilesController {
     @PutMapping(Endpoints.FILE)
     public ResponseEntity<String> editFile(@RequestParam(required = false) String filename,
                                            @RequestBody FileDto editFile) {
-        if (StringUtils.isBlank(filename) || editFile == null) {
+        if (StringUtils.isBlank(filename)) {
             throw new MissingFileDataException("File name is missing");
         }
         filesService.editFile(filename, editFile.getFilename());
@@ -62,9 +62,6 @@ public class FilesController {
 
     @DeleteMapping(Endpoints.FILE)
     public ResponseEntity<String> deleteFile(@RequestParam String filename) {
-        if (StringUtils.isBlank(filename)) {
-            throw new MissingFileDataException("File name is missing");
-        }
         filesService.deleteFile(filename);
         return ResponseEntity.ok("File was successfully deleted");
     }

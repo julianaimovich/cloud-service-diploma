@@ -39,6 +39,4 @@ logging:
         catalina:
           filters:
             RequestDumperFilter: DEBUG
-      #hibernate:
-        #SQL: DEBUG
   config: classpath:log4j2.xml
