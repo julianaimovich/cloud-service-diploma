@@ -19,54 +19,63 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorDto> handleBadCredentialsException(BadCredentialsException ex) {
+        logger.error("BadCredentialsException: {}", ex.getMessage(), ex);
         ErrorDto errorDto = new ErrorDto(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
     }
 
     @ExceptionHandler(SessionNotFoundException.class)
     public ResponseEntity<ErrorDto> handleSessionNotFoundException(SessionNotFoundException ex) {
+        logger.error("SessionNotFoundException: {}", ex.getMessage(), ex);
         ErrorDto errorDto = new ErrorDto(ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDto);
     }
 
     @ExceptionHandler(InvalidSessionTokenException.class)
     public ResponseEntity<ErrorDto> handleInvalidSessionTokenException(InvalidSessionTokenException ex) {
+        logger.error("InvalidSessionTokenException: {}", ex.getMessage(), ex);
         ErrorDto errorDto = new ErrorDto(ex.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDto);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorDto> handleUserNotFoundException(UserNotFoundException ex) {
+        logger.error("UserNotFoundException: {}", ex.getMessage(), ex);
         ErrorDto errorDto = new ErrorDto(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
     }
 
     @ExceptionHandler(FileNotFoundException.class)
     public ResponseEntity<ErrorDto> handleFileNotFoundException(FileNotFoundException ex) {
+        logger.error("FileNotFoundException: {}", ex.getMessage(), ex);
         ErrorDto errorDto = new ErrorDto(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
     }
 
     @ExceptionHandler(FileProcessingException.class)
     public ResponseEntity<ErrorDto> handleFileProcessingException(FileProcessingException ex) {
+        logger.error("FileProcessingException: {}", ex.getMessage(), ex);
         ErrorDto errorDto = new ErrorDto(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
     }
 
     @ExceptionHandler(MissingFileDataException.class)
     public ResponseEntity<ErrorDto> handleMissingFileDataException(MissingFileDataException ex) {
+        logger.error("MissingFileDataException: {}", ex.getMessage(), ex);
         ErrorDto errorDto = new ErrorDto(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorDto> handleIllegalArgumentException(IllegalArgumentException ex) {
+        logger.error("IllegalArgumentException: {}", ex.getMessage(), ex);
         ErrorDto errorDto = new ErrorDto(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
     }
 
     @ExceptionHandler(MultipartException.class)
     public ResponseEntity<ErrorDto> handleMultipartException(MultipartException ex) {
+        logger.error("MultipartException: {}", ex.getMessage(), ex);
         String message;
         Throwable rootCause = ex.getRootCause();
         if (rootCause instanceof org.apache.tomcat.util.http.fileupload.FileUploadException) {
@@ -84,6 +93,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers,
                                                                   HttpStatusCode status, WebRequest request) {
+        logger.error("HttpMessageNotReadableException: {}", ex.getMessage(), ex);
         ErrorDto errorDto = new ErrorDto("Required request body is missing");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
     }
@@ -91,6 +101,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers,
                                                                           HttpStatusCode status, WebRequest request) {
+        logger.error("MissingServletRequestParameterException: {}", ex.getMessage(), ex);
         String message = String.format("Required request parameter '%s' is missing", ex.getParameterName());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDto(message));
     }
