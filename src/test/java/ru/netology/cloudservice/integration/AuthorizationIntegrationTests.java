@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import ru.netology.cloudservice.dto.FileDto;
@@ -14,6 +15,7 @@ import ru.netology.cloudservice.util.TestConstants.UserSessionValues;
 import ru.netology.cloudservice.util.builder.FileBuilder;
 import ru.netology.cloudservice.util.builder.UserBuilder;
 import ru.netology.cloudservice.utils.Constants.Endpoints;
+import ru.netology.cloudservice.utils.LoggingFilterConfig;
 
 import java.net.URISyntaxException;
 import java.util.UUID;
@@ -24,6 +26,7 @@ import static ru.netology.cloudservice.util.TestConstants.FilesParamValues.FILE_
 import static ru.netology.cloudservice.util.TestConstants.ServerParams.CACHE_CONTROL_HEADER;
 import static ru.netology.cloudservice.util.TestConstants.ServerParams.CACHE_CONTROL_VALUE;
 
+@Import(LoggingFilterConfig.class)
 public class AuthorizationIntegrationTests extends BaseIntegrationTest {
 
     @BeforeEach

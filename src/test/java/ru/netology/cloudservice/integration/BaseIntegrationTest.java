@@ -2,6 +2,8 @@ package ru.netology.cloudservice.integration;
 
 import io.restassured.RestAssured;
 import io.restassured.config.HttpClientConfig;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +22,7 @@ public class BaseIntegrationTest {
 
     @BeforeAll
     public static void setUp() throws InterruptedException {
+        RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
         environment = new DockerComposeContainer<>(new File(ServerParams.DOCKER_COMPOSE_FILE))
                 .withLocalCompose(true);
         environment.start();
