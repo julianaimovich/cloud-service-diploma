@@ -35,4 +35,5 @@ logging:
           CommonsRequestLoggingFilter: DEBUG
         servlet:
           DispatcherServlet: DEBUG
+    io.restassured: TRACE
   config: classpath:log4j2.xml

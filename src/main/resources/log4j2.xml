@@ -63,6 +63,11 @@
             <AppenderRef ref="toTrace" />
         </logger>
 
+        <logger name="io.restassured.filter" level="DEBUG" additivity="false">
+            <AppenderRef ref="toTestTrace"/>
+            <AppenderRef ref="toConsole"/>
+        </logger>
+
         <Root level="DEBUG">
             <AppenderRef ref="toConsole" />
             <AppenderRef ref="toTestTrace" />
