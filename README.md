@@ -85,13 +85,11 @@ management:                       # Настройки Spring Boot Actuator дл
 
 logging:
   level:
-    org:
-      springframework:
-        web: DEBUG
-        filter:
-          CommonsRequestLoggingFilter: DEBUG
-        servlet:
-          DispatcherServlet: DEBUG
+    org.springframework: WARN
+    org.apache.catalina: WARN
+    org.hibernate: ERROR
+    org.springframework.security: INFO
+    io.restassured: INFO
   config: classpath:log4j2.xml
 ```
 
@@ -179,32 +177,37 @@ spring:
 
     <Loggers>
         <!-- Логирование HTTP-запросов и ответов -->
-        <logger name="ru.netology" level="DEBUG" additivity="false">
+        <logger name="ru.netology" level="INFO" additivity="false">
             <AppenderRef ref="toTestTrace" />
             <AppenderRef ref="toConsole" />
         </logger>
 
-        <logger name="org.springframework.web.filter" level="DEBUG" additivity="false">
+        <logger name="org.springframework.web.filter" level="INFO" additivity="false">
             <AppenderRef ref="toConsole"/>
             <AppenderRef ref="toTestTrace"/>
         </logger>
 
-        <logger name="org.apache.catalina.filters.RequestDumperFilter" level="DEBUG" additivity="false">
+        <logger name="org.apache.catalina.filters.RequestDumperFilter" level="ERROR" additivity="false">
             <AppenderRef ref="toConsole"/>
             <AppenderRef ref="toTestTrace"/>
         </logger>
 
-        <logger name="org.springframework.web.servlet.DispatcherServlet" level="DEBUG" additivity="false">
+        <logger name="org.springframework.web.servlet.DispatcherServlet" level="ERROR" additivity="false">
             <AppenderRef ref="toConsole"/>
             <AppenderRef ref="toTestTrace"/>
         </logger>
 
-        <logger name="org.reflections.Reflections" level="DEBUG" additivity="false">
+        <logger name="org.reflections.Reflections" level="ERROR" additivity="false">
             <AppenderRef ref="toConsole" />
             <AppenderRef ref="toTrace" />
         </logger>
 
-        <Root level="DEBUG">
+        <logger name="io.restassured.filter" level="INFO" additivity="false">
+            <AppenderRef ref="toConsole"/>
+            <AppenderRef ref="toTestTrace"/>
+        </logger>
+
+        <Root level="INFO">
             <AppenderRef ref="toConsole" />
             <AppenderRef ref="toTestTrace" />
             <AppenderRef ref="toTrace" />
