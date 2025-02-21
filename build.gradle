@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
     annotationProcessor 'org.projectlombok:lombok'
-    implementation('org.springframework.boot:spring-boot-starter-logging') {
+    implementation('org.springframework.boot:spring-boot-starter') {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
     }
     implementation(

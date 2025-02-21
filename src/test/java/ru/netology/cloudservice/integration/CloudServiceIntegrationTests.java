@@ -15,7 +15,6 @@ import ru.netology.cloudservice.util.ServerUtils;
 import ru.netology.cloudservice.util.TestConstants.FilesParamValues;
 import ru.netology.cloudservice.util.builder.FileBuilder;
 import ru.netology.cloudservice.utils.Constants.Endpoints;
-import ru.netology.cloudservice.utils.LoggingFilterConfig;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -30,7 +29,6 @@ import static ru.netology.cloudservice.util.TestConstants.ServerParams.CACHE_CON
 import static ru.netology.cloudservice.util.TestConstants.UserSessionValues.AUTH_TOKEN;
 import static ru.netology.cloudservice.util.TestConstants.UserSessionValues.JSESSIONID;
 
-@Import(LoggingFilterConfig.class)
 public class CloudServiceIntegrationTests extends BaseIntegrationTest {
 
     @Autowired
