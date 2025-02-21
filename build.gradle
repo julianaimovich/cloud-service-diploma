@@ -19,34 +19,39 @@ configurations {
     }
 }
 
-configurations.configureEach {
-    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-}
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
     annotationProcessor 'org.projectlombok:lombok'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'com.mysql:mysql-connector-j'
-    implementation 'net.datafaker:datafaker:2.4.2'
-    implementation 'commons-io:commons-io:2.18.0'
-    implementation 'com.h2database:h2:2.2.220'
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
-    implementation 'io.swagger.parser.v3:swagger-parser:2.1.16'
-    implementation 'org.springframework.boot:spring-boot-starter-log4j2:3.0.0'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.mockito:mockito-junit-jupiter:5.15.2'
-    testImplementation 'org.testcontainers:testcontainers:1.20.4'
-    testImplementation 'org.testcontainers:junit-jupiter:1.20.4'
-    testImplementation 'org.testcontainers:mysql:1.20.4'
-    testImplementation 'io.rest-assured:rest-assured:5.5.0'
+    implementation('org.springframework.boot:spring-boot-starter-logging') {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+    implementation(
+            'org.springframework.boot:spring-boot-starter-data-jpa',
+            'org.springframework.boot:spring-boot-starter-web',
+            'org.springframework.boot:spring-boot-starter-security',
+            'org.springframework.boot:spring-boot-starter-jdbc',
+            'org.springframework.boot:spring-boot-starter-actuator',
+            'com.mysql:mysql-connector-j',
+            'net.datafaker:datafaker:2.4.2',
+            'commons-io:commons-io:2.18.0',
+            'com.h2database:h2:2.2.220',
+            'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0',
+            'io.swagger.parser.v3:swagger-parser:2.1.16',
+            'org.apache.logging.log4j:log4j-api:2.20.0',
+            'org.apache.logging.log4j:log4j-core:2.20.0',
+            'org.apache.logging.log4j:log4j-slf4j-impl:2.20.0'
+    )
+    testImplementation(
+            'org.springframework.boot:spring-boot-starter-test',
+            'org.mockito:mockito-junit-jupiter:5.15.2',
+            'org.testcontainers:testcontainers:1.20.4',
+            'org.testcontainers:junit-jupiter:1.20.4',
+            'org.testcontainers:mysql:1.20.4',
+            'io.rest-assured:rest-assured:5.5.0'
+    )
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

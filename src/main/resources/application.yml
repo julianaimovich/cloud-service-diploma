@@ -35,8 +35,4 @@ logging:
           CommonsRequestLoggingFilter: DEBUG
         servlet:
           DispatcherServlet: DEBUG
-      apache:
-        catalina:
-          filters:
-            RequestDumperFilter: DEBUG
   config: classpath:log4j2.xml

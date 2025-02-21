@@ -1,6 +1,8 @@
 package ru.netology.cloudservice.service;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,14 +22,18 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final AuthoritiesRepository authoritiesRepository;
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
+
     @Override
     public UserDetails loadUserByUsername(String username) {
+        logger.info("Fetching user from DB with login: {}", username);
         return usersRepository.findByLogin(username)
                 .orElseThrow(() ->
                         new UserNotFoundException(username));
     }
 
     public List<GrantedAuthority> getAuthorities(String username) {
+        logger.info("Fetching authorities from DB by user login: {}", username);
         return authoritiesRepository.findByLogin(username)
                 .map(authoritiesEntity ->
                         List.of((GrantedAuthority) new SimpleGrantedAuthority(authoritiesEntity.getAuthority())))

@@ -1,6 +1,8 @@
 package ru.netology.cloudservice.controller;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -21,6 +23,8 @@ public class FilesController {
 
     private final FilesService filesService;
 
+    private static final Logger logger = LoggerFactory.getLogger(FilesController.class);
+
     public FilesController(FilesService filesService) {
         this.filesService = filesService;
     }
@@ -33,6 +37,7 @@ public class FilesController {
         } else if (file.isEmpty()) {
             throw new MissingFileDataException("File content is missing");
         }
+        logger.info("Uploading file '{}'", filename);
         filesService.saveFile(filename, file);
         return ResponseEntity.ok("File was uploaded successfully");
     }
@@ -44,6 +49,7 @@ public class FilesController {
         }
         byte[] fileContent = filesService.getFile(filename);
         String contentType = filesService.getFileContentType(filename);
+        logger.info("File '{}' was successfully downloaded", filename);
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.parseMediaType(contentType))
@@ -56,12 +62,14 @@ public class FilesController {
         if (StringUtils.isBlank(filename)) {
             throw new MissingFileDataException("File name is missing");
         }
+        logger.info("Editing file '{}'", filename);
         filesService.editFile(filename, editFile.getFilename());
         return ResponseEntity.ok("File was successfully edited");
     }
 
     @DeleteMapping(Endpoints.FILE)
     public ResponseEntity<String> deleteFile(@RequestParam String filename) {
+        logger.info("Deleting file '{}'", filename);
         filesService.deleteFile(filename);
         return ResponseEntity.ok("File was successfully deleted");
     }

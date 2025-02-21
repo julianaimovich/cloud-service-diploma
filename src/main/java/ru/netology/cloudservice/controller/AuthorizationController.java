@@ -2,6 +2,8 @@ package ru.netology.cloudservice.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,8 @@ public class AuthorizationController {
 
     private final AuthService authService;
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthorizationController.class);
+
     public AuthorizationController(AuthService authService) {
         this.authService = authService;
     }
@@ -24,6 +28,7 @@ public class AuthorizationController {
     @PostMapping(Endpoints.LOGIN)
     public ResponseEntity<UserDto> login(@RequestBody UserDto userDto, HttpServletRequest request) {
         UserDto user = authService.authenticate(userDto, request);
+        logger.info("User with login '{}' has successfully logged in", userDto.getLogin());
         return ResponseEntity.ok(user);
     }
 
@@ -44,6 +49,7 @@ public class AuthorizationController {
         session.invalidate();
         SecurityContextHolder.clearContext();
 
+        logger.info("User logged out");
         return ResponseEntity.ok().build();
     }
 }
