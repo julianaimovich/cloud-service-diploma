@@ -134,6 +134,84 @@ spring:
     username: sa  
     password:  
 ```
+
+```log4j2.xml``` – конфигурационный файл, содержащий настройки логирования.   
+Пример конфигурации ```log4j2.xml```:
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration shutdownHook="disable">
+    <Properties>
+        <property name="CONSOLE_LOG_PATTERN" value="%style{%d{ISO8601}} %highlight{%-5level}[%style{%tid:%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable" />
+        <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%tid:%tn] %-5p %c - %m%n" />
+        <property name="LOG_PATH" value="./logs"/>
+    </Properties>
+
+    <Appenders>
+        <Console name="toConsole">
+            <PatternLayout pattern="${CONSOLE_LOG_PATTERN}" />
+        </Console>
+
+        <RollingFile name="toTrace"
+                     fileName="${LOG_PATH}/trace.log"
+                     filePattern="${LOG_PATH}/history/%d{yyyy-MM-dd}/trace-%d{yyyy-MM-dd_HH-mm}.log">
+            <PatternLayout pattern="${FILE_LOG_PATTERN}" />
+            <Policies>
+                <!-- rollover on startup, daily and when the file reaches 20 MegaBytes -->
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="20 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="toTestTrace"
+                     fileName="${LOG_PATH}/test_trace.log"
+                     filePattern="${LOG_PATH}/history/%d{yyyy-MM-dd}/test_trace-%d{yyyy-MM-dd_HH-mm}.log">
+            <PatternLayout pattern="${FILE_LOG_PATTERN}" />
+            <Policies>
+                <!-- rollover on startup, daily and when the file reaches 20 MegaBytes -->
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="20 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- Логирование HTTP-запросов и ответов -->
+        <logger name="ru.netology" level="DEBUG" additivity="false">
+            <AppenderRef ref="toTestTrace" />
+            <AppenderRef ref="toConsole" />
+        </logger>
+
+        <logger name="org.springframework.web.filter" level="DEBUG" additivity="false">
+            <AppenderRef ref="toConsole"/>
+            <AppenderRef ref="toTestTrace"/>
+        </logger>
+
+        <logger name="org.apache.catalina.filters.RequestDumperFilter" level="DEBUG" additivity="false">
+            <AppenderRef ref="toConsole"/>
+            <AppenderRef ref="toTestTrace"/>
+        </logger>
+
+        <logger name="org.springframework.web.servlet.DispatcherServlet" level="DEBUG" additivity="false">
+            <AppenderRef ref="toConsole"/>
+            <AppenderRef ref="toTestTrace"/>
+        </logger>
+
+        <logger name="org.reflections.Reflections" level="DEBUG" additivity="false">
+            <AppenderRef ref="toConsole" />
+            <AppenderRef ref="toTrace" />
+        </logger>
+
+        <Root level="DEBUG">
+            <AppenderRef ref="toConsole" />
+            <AppenderRef ref="toTestTrace" />
+            <AppenderRef ref="toTrace" />
+        </Root>
+    </Loggers>
+</Configuration>
+```
 ---
 
 ## 💾 Хранение учетных данных пользователей
