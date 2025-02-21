@@ -8,7 +8,7 @@ REST-сервис, позволяющий хранить файлы и рабо�
 1. [Описание](#-описание)
 2. [Стек](#-стек)
 3. [Запуск приложения](#-запуск-приложения)
-4. [Конфигурация](#️-конфигурация)
+4. [Конфигурирование](#️-конфигурирование)
 5. [Хранение учетных данных пользователей](#-хранение-учетных-данных-пользователей)
 6. [Swagger UI](#-swagger-ui)
 7. [Тестирование](#-тестирование)
@@ -46,7 +46,7 @@ REST-сервис, позволяющий хранить файлы и рабо�
 
 ---
 
-## ⚙️ Конфигурация
+## ⚙️ Конфигурирование
 
 Настройки приложения находятся в файлах:
 
@@ -64,6 +64,12 @@ spring:
   jackson:
     serialization:
       fail-on-empty-beans: false  # Для предотвращения ошибки при сериализации Jackson
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 15MB
+
 management:                       # Настройки Spring Boot Actuator для контроля статуса сервера 
   endpoints:
     web:
@@ -76,6 +82,17 @@ management:                       # Настройки Spring Boot Actuator дл
   health:
     db:
       enabled: true
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+        filter:
+          CommonsRequestLoggingFilter: DEBUG
+        servlet:
+          DispatcherServlet: DEBUG
+  config: classpath:log4j2.xml
 ```
 
 ```application-prod.yml``` – конфигурационный файл, содержащий настройки профиля ```prod```, необходимого для работы сервера с БД MySQL. Пример конфигурации ```application-prod.yml```:
@@ -83,7 +100,6 @@ management:                       # Настройки Spring Boot Actuator дл
 ```
 spring:  
   jpa:  
-    show-sql: true  
     database-platform: org.hibernate.dialect.MySQL8Dialect  
     hibernate:  
       ddl-auto: create  
@@ -108,7 +124,6 @@ spring:
       mode: never  
   jpa:  
     database-platform: org.hibernate.dialect.H2Dialect  
-    show-sql: true  
     properties:  
       hibernate.hbm2ddl.import_files: import.sql  
     hibernate:  
@@ -118,10 +133,84 @@ spring:
     url: jdbc:h2:mem:netology;DB_CLOSE_DELAY=-1  
     username: sa  
     password:  
-  h2:  
-    console:  
-      enabled: true  
-      path: /h2-console
+```
+
+```log4j2.xml``` – конфигурационный файл, содержащий настройки логирования.   
+Пример конфигурации ```log4j2.xml```:
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration shutdownHook="disable">
+    <Properties>
+        <property name="CONSOLE_LOG_PATTERN" value="%style{%d{ISO8601}} %highlight{%-5level}[%style{%tid:%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable" />
+        <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%tid:%tn] %-5p %c - %m%n" />
+        <property name="LOG_PATH" value="./logs"/>
+    </Properties>
+
+    <Appenders>
+        <Console name="toConsole">
+            <PatternLayout pattern="${CONSOLE_LOG_PATTERN}" />
+        </Console>
+
+        <RollingFile name="toTrace"
+                     fileName="${LOG_PATH}/trace.log"
+                     filePattern="${LOG_PATH}/history/%d{yyyy-MM-dd}/trace-%d{yyyy-MM-dd_HH-mm}.log">
+            <PatternLayout pattern="${FILE_LOG_PATTERN}" />
+            <Policies>
+                <!-- rollover on startup, daily and when the file reaches 20 MegaBytes -->
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="20 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="toTestTrace"
+                     fileName="${LOG_PATH}/test_trace.log"
+                     filePattern="${LOG_PATH}/history/%d{yyyy-MM-dd}/test_trace-%d{yyyy-MM-dd_HH-mm}.log">
+            <PatternLayout pattern="${FILE_LOG_PATTERN}" />
+            <Policies>
+                <!-- rollover on startup, daily and when the file reaches 20 MegaBytes -->
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="20 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- Логирование HTTP-запросов и ответов -->
+        <logger name="ru.netology" level="DEBUG" additivity="false">
+            <AppenderRef ref="toTestTrace" />
+            <AppenderRef ref="toConsole" />
+        </logger>
+
+        <logger name="org.springframework.web.filter" level="DEBUG" additivity="false">
+            <AppenderRef ref="toConsole"/>
+            <AppenderRef ref="toTestTrace"/>
+        </logger>
+
+        <logger name="org.apache.catalina.filters.RequestDumperFilter" level="DEBUG" additivity="false">
+            <AppenderRef ref="toConsole"/>
+            <AppenderRef ref="toTestTrace"/>
+        </logger>
+
+        <logger name="org.springframework.web.servlet.DispatcherServlet" level="DEBUG" additivity="false">
+            <AppenderRef ref="toConsole"/>
+            <AppenderRef ref="toTestTrace"/>
+        </logger>
+
+        <logger name="org.reflections.Reflections" level="DEBUG" additivity="false">
+            <AppenderRef ref="toConsole" />
+            <AppenderRef ref="toTrace" />
+        </logger>
+
+        <Root level="DEBUG">
+            <AppenderRef ref="toConsole" />
+            <AppenderRef ref="toTestTrace" />
+            <AppenderRef ref="toTrace" />
+        </Root>
+    </Loggers>
+</Configuration>
 ```
 ---
 
