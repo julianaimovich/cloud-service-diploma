@@ -2,12 +2,9 @@ package ru.netology.cloudservice.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.RestAssured;
-import io.restassured.filter.log.RequestLoggingFilter;
-import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import ru.netology.cloudservice.dto.FileDto;
@@ -39,11 +36,6 @@ public class CloudServiceIntegrationTests extends BaseIntegrationTest {
     private String sessionId;
 
     private String authToken;
-
-    @BeforeEach
-    public void setupLogging() {
-        RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
-    }
 
     @BeforeEach
     public void authorize() throws JsonProcessingException {

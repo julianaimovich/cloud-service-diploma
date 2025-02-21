@@ -1,8 +1,8 @@
 package ru.netology.cloudservice.controller;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -23,7 +23,7 @@ public class FilesController {
 
     private final FilesService filesService;
 
-    private static final Logger logger = LoggerFactory.getLogger(FilesController.class);
+    private static final Logger logger = LogManager.getLogger(FilesController.class);
 
     public FilesController(FilesService filesService) {
         this.filesService = filesService;

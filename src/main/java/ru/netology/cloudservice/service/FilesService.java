@@ -1,7 +1,7 @@
 package ru.netology.cloudservice.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.netology.cloudservice.exception.FileNotFoundException;
@@ -18,7 +18,7 @@ public class FilesService {
 
     private final FilesRepository filesRepository;
 
-    private static final Logger logger = LoggerFactory.getLogger(FilesService.class);
+    private static final Logger logger = LogManager.getLogger(FilesService.class);
 
     public FilesService(FilesRepository filesRepository) {
         this.filesRepository = filesRepository;

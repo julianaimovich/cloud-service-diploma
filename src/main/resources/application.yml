@@ -28,12 +28,9 @@ management:
 
 logging:
   level:
-    org:
-      springframework:
-        web: DEBUG
-        filter:
-          CommonsRequestLoggingFilter: DEBUG
-        servlet:
-          DispatcherServlet: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.filter.CommonsRequestLoggingFilter: DEBUG
+    org.springframework.servlet.DispatcherServlet: DEBUG
+    org.springframework.security: DEBUG
     io.restassured: TRACE
   config: classpath:log4j2.xml

@@ -2,8 +2,8 @@ package ru.netology.cloudservice.service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,7 +25,7 @@ public class AuthService {
 
     private final CustomUserDetailsService userDetailsService;
 
-    private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
+    private static final Logger logger = LogManager.getLogger(AuthService.class);
 
     public AuthService(AuthenticationManager authenticationManager, CustomUserDetailsService userDetailsService) {
         this.authenticationManager = authenticationManager;

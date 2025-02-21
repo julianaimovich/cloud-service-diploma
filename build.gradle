@@ -21,12 +21,20 @@ configurations {
 
 repositories {
     mavenCentral()
+    gradlePluginPortal()
 }
 
 dependencies {
     annotationProcessor 'org.projectlombok:lombok'
-    implementation('org.springframework.boot:spring-boot-starter') {
-        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    configurations.all {
+        exclude group: "ch.qos.logback", module: "logback-classic"
+        exclude group: "ch.qos.logback", module: "logback-core"
+        exclude group: "org.apache.logging.log4j", module: "log4j-to-slf4j"
+        exclude group: "org.slf4j", module: "slf4j-log4j12"
+        exclude group: "org.apache.logging.log4j", module: "log4j-slf4j-impl"
+    }
+    implementation("org.springframework.boot:spring-boot-starter") {
+        exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
     }
     implementation(
             'org.springframework.boot:spring-boot-starter-data-jpa',
@@ -42,7 +50,8 @@ dependencies {
             'io.swagger.parser.v3:swagger-parser:2.1.16',
             'org.apache.logging.log4j:log4j-api:2.20.0',
             'org.apache.logging.log4j:log4j-core:2.20.0',
-            'org.apache.logging.log4j:log4j-slf4j-impl:2.20.0'
+            'org.apache.logging.log4j:log4j-slf4j2-impl:2.20.0',
+            'org.slf4j:slf4j-api:2.0.9'
     )
     testImplementation(
             'org.springframework.boot:spring-boot-starter-test',

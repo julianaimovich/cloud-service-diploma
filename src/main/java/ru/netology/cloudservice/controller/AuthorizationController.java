@@ -2,8 +2,8 @@ package ru.netology.cloudservice.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ public class AuthorizationController {
 
     private final AuthService authService;
 
-    private static final Logger logger = LoggerFactory.getLogger(AuthorizationController.class);
+    private static final Logger logger = LogManager.getLogger(AuthorizationController.class);
 
     public AuthorizationController(AuthService authService) {
         this.authService = authService;

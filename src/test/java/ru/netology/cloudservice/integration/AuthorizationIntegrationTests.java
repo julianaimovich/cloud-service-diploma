@@ -2,11 +2,8 @@ package ru.netology.cloudservice.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.RestAssured;
-import io.restassured.filter.log.RequestLoggingFilter;
-import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import ru.netology.cloudservice.dto.FileDto;
@@ -31,7 +28,6 @@ public class AuthorizationIntegrationTests extends BaseIntegrationTest {
 
     @BeforeEach
     public void resetCookies() {
-        RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
         ServerUtils.resetCookies();
     }
 

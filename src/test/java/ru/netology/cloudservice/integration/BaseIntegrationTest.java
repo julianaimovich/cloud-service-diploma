@@ -21,7 +21,6 @@ public class BaseIntegrationTest {
 
     @BeforeAll
     public static void setUp() throws InterruptedException {
-        RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
         environment = new DockerComposeContainer<>(new File(ServerParams.DOCKER_COMPOSE_FILE))
                 .withLocalCompose(true);
         environment.start();
@@ -38,5 +37,10 @@ public class BaseIntegrationTest {
     @AfterAll
     public static void tearDown() {
         environment.stop();
+    }
+
+    @BeforeEach
+    public void setupLogging() {
+        RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
     }
 }
