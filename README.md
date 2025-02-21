@@ -64,6 +64,12 @@ spring:
   jackson:
     serialization:
       fail-on-empty-beans: false  # Для предотвращения ошибки при сериализации Jackson
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 15MB
+
 management:                       # Настройки Spring Boot Actuator для контроля статуса сервера 
   endpoints:
     web:
@@ -76,6 +82,17 @@ management:                       # Настройки Spring Boot Actuator дл
   health:
     db:
       enabled: true
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+        filter:
+          CommonsRequestLoggingFilter: DEBUG
+        servlet:
+          DispatcherServlet: DEBUG
+  config: classpath:log4j2.xml
 ```
 
 ```application-prod.yml``` – конфигурационный файл, содержащий настройки профиля ```prod```, необходимого для работы сервера с БД MySQL. Пример конфигурации ```application-prod.yml```:
@@ -83,7 +100,6 @@ management:                       # Настройки Spring Boot Actuator дл
 ```
 spring:  
   jpa:  
-    show-sql: true  
     database-platform: org.hibernate.dialect.MySQL8Dialect  
     hibernate:  
       ddl-auto: create  
@@ -108,7 +124,6 @@ spring:
       mode: never  
   jpa:  
     database-platform: org.hibernate.dialect.H2Dialect  
-    show-sql: true  
     properties:  
       hibernate.hbm2ddl.import_files: import.sql  
     hibernate:  
@@ -118,10 +133,6 @@ spring:
     url: jdbc:h2:mem:netology;DB_CLOSE_DELAY=-1  
     username: sa  
     password:  
-  h2:  
-    console:  
-      enabled: true  
-      path: /h2-console
 ```
 ---
 
