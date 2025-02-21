@@ -38,37 +38,37 @@
 
     <Loggers>
         <!-- Логирование HTTP-запросов и ответов -->
-        <logger name="ru.netology" level="DEBUG" additivity="false">
+        <logger name="ru.netology" level="INFO" additivity="false">
             <AppenderRef ref="toTestTrace" />
             <AppenderRef ref="toConsole" />
         </logger>
 
-        <logger name="org.springframework.web.filter" level="DEBUG" additivity="false">
+        <logger name="org.springframework.web.filter" level="INFO" additivity="false">
             <AppenderRef ref="toConsole"/>
             <AppenderRef ref="toTestTrace"/>
         </logger>
 
-        <logger name="org.apache.catalina.filters.RequestDumperFilter" level="DEBUG" additivity="false">
+        <logger name="org.apache.catalina.filters.RequestDumperFilter" level="ERROR" additivity="false">
             <AppenderRef ref="toConsole"/>
             <AppenderRef ref="toTestTrace"/>
         </logger>
 
-        <logger name="org.springframework.web.servlet.DispatcherServlet" level="DEBUG" additivity="false">
+        <logger name="org.springframework.web.servlet.DispatcherServlet" level="ERROR" additivity="false">
             <AppenderRef ref="toConsole"/>
             <AppenderRef ref="toTestTrace"/>
         </logger>
 
-        <logger name="org.reflections.Reflections" level="DEBUG" additivity="false">
+        <logger name="org.reflections.Reflections" level="ERROR" additivity="false">
             <AppenderRef ref="toConsole" />
             <AppenderRef ref="toTrace" />
         </logger>
 
-        <logger name="io.restassured.filter" level="TRACE" additivity="false">
+        <logger name="io.restassured.filter" level="INFO" additivity="false">
             <AppenderRef ref="toConsole"/>
             <AppenderRef ref="toTestTrace"/>
         </logger>
 
-        <Root level="DEBUG">
+        <Root level="INFO">
             <AppenderRef ref="toConsole" />
             <AppenderRef ref="toTestTrace" />
             <AppenderRef ref="toTrace" />
